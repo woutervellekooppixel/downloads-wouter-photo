@@ -1,52 +1,36 @@
-import fs from "fs";
-import path from "path";
+"use client";
 
-export default function Home() {
-  const zipDir = path.join(process.cwd(), "public", "zips");
-  const files = fs.existsSync(zipDir)
-    ? fs.readdirSync(zipDir).filter((file) => file.endsWith(".zip"))
-    : [];
+import { useState } from "react";
+// ...bovenin van je bestand (indien nog niet toegevoegd)
 
-  const downloads = files.map((file) => {
-    const [slug, title, client, dateRawWithExt] = file.split("__");
-    const dateRaw = dateRawWithExt.replace(".zip", "");
-    const date = new Date(dateRaw).toLocaleDateString("nl-NL", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
+export default function Page() {
+  // ...je bestaande ZIP uitleescode hier...
 
-    return { slug, title, client, date, filename: file };
-  });
+  const handleCopy = (url: string, index: number) => {
+    navigator.clipboard.writeText(url);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
+  };
+
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
   return (
     <main style={{ fontFamily: "sans-serif", padding: "2rem" }}>
-      <h1 style={{ fontSize: "2.5rem", marginBottom: "2rem" }}>
-        Downloads
-      </h1>
+      <h1 style={{ fontSize: "2rem", marginBottom: "1.5rem" }}>Downloads</h1>
 
-      {downloads.length === 0 && <p>Er zijn momenteel geen downloads beschikbaar.</p>}
+      {items.map((item, index) => {
+        const url = `https://downloads.wouter.photo/zips/${item.filename}`;
 
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        {downloads.map((item) => (
-          <li
-            key={item.slug}
-            style={{
-              marginBottom: "2rem",
-              padding: "1.5rem",
-              border: "1px solid #ddd",
-              borderRadius: "8px",
-            }}
-          >
-            <h2 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>
+        return (
+          <div key={item.filename} style={{ marginBottom: "2rem" }}>
+            <h2 style={{ fontSize: "1.25rem", marginBottom: "0.5rem" }}>
               {item.title}
             </h2>
-            <p style={{ marginBottom: "0.3rem" }}>
-              <strong>Klant:</strong> {item.client}
-            </p>
-            <p style={{ marginBottom: "1rem" }}>
+            <p>
+              <strong>Klant:</strong> {item.client} <br />
               <strong>Datum:</strong> {item.date}
             </p>
+
             <a
               href={`/zips/${item.filename}`}
               download
@@ -57,13 +41,48 @@ export default function Home() {
                 color: "#fff",
                 textDecoration: "none",
                 borderRadius: "4px",
+                marginTop: "0.5rem",
               }}
             >
               📥 Download ZIP
             </a>
-          </li>
-        ))}
-      </ul>
+
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginTop: "0.5rem",
+              }}
+            >
+              <pre
+                style={{
+                  backgroundColor: "#f5f5f5",
+                  padding: "0.75rem",
+                  borderRadius: "4px",
+                  fontSize: "0.9rem",
+                  overflowX: "auto",
+                  flex: 1,
+                  marginRight: "0.5rem",
+                }}
+              >
+                {url}
+              </pre>
+              <button
+                onClick={() => handleCopy(url, index)}
+                style={{
+                  padding: "0.5rem 0.75rem",
+                  borderRadius: "4px",
+                  backgroundColor: "#eee",
+                  border: "1px solid #ccc",
+                  cursor: "pointer",
+                }}
+              >
+                {copiedIndex === index ? "✓" : "📋"}
+              </button>
+            </div>
+          </div>
+        );
+      })}
     </main>
   );
 }
