@@ -1,5 +1,6 @@
 import path from "path";
 import { promises as fs } from "fs";
+import CopyButton from "./components/CopyButton";
 
 type Item = {
   slug: string;
@@ -80,20 +81,7 @@ export default async function HomePage() {
             >
               <code style={{ color: "#333" }}>{url}</code>
             </pre>
-            <button
-              onClick={() => navigator.clipboard.writeText(url)}
-              style={{
-                marginTop: "0.5rem",
-                padding: "0.5rem 1rem",
-                backgroundColor: "#000",
-                color: "#fff",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-              }}
-            >
-              📋 Kopieer link
-            </button>
+            <CopyButton text={url} />
           </div>
         );
       })}
