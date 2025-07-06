@@ -70,16 +70,30 @@ export default async function HomePage() {
               📥 Download ZIP
             </a>
             <pre
-  style={{
-    background: "#f4f4f4",
-    padding: "0.75rem",
-    borderRadius: "4px",
-    marginTop: "1rem",
-    overflowX: "auto",
-  }}
->
-  <code style={{ color: "#333" }}>{url}</code>
-</pre>
+              style={{
+                background: "#f4f4f4",
+                padding: "0.75rem",
+                borderRadius: "4px",
+                marginTop: "1rem",
+                overflowX: "auto",
+              }}
+            >
+              <code style={{ color: "#333" }}>{url}</code>
+            </pre>
+            <button
+              onClick={() => navigator.clipboard.writeText(url)}
+              style={{
+                marginTop: "0.5rem",
+                padding: "0.5rem 1rem",
+                backgroundColor: "#000",
+                color: "#fff",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+            >
+              📋 Kopieer link
+            </button>
           </div>
         );
       })}
