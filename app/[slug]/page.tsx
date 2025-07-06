@@ -3,28 +3,32 @@ import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
 
+type Props = {
+  params: {
+    slug: string;
+  };
+};
+
 export async function generateStaticParams() {
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
-  const slugs = files
+  return files
     .filter((file) => file.endsWith(".zip"))
     .map((file) => {
       const [slug] = file.split("__");
       return { slug };
     });
-  return slugs;
 }
 
-export default function DownloadPage({ params }: { params: { slug: string } }) {
+export default function DownloadPage({ params }: Props) {
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
-  const match = files.find((file) => file.startsWith(`${params.slug}__`) && file.endsWith(".zip"));
+  const match = files.find((file) => file.startsWith(`${params.slug}__`) && file.endsWith(".zip`"));
 
   if (!match) {
     notFound();
   }
 
-  // ⬇️ FIXED: we slaan `slug` over omdat hij niet gebruikt wordt
   const [, title, client, dateRaw] = match.replace(".zip", "").split("__");
   const date = new Date(dateRaw).toLocaleDateString("nl-NL", {
     year: "numeric",
