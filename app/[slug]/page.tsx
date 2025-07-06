@@ -3,7 +3,12 @@ export const dynamic = "force-static";
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
-import { PageProps } from "next";
+
+type PageProps = {
+  params: {
+    slug: string;
+  };
+};
 
 export async function generateStaticParams(): Promise<PageProps["params"][]> {
   const zipDir = path.join(process.cwd(), "public", "zips");
