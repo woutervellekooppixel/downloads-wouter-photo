@@ -4,11 +4,15 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/", // Alleen voor de rootpagina
+        source: "/",
         headers: [
           {
             key: "Access-Control-Allow-Headers",
             value: "Authorization",
+          },
+          {
+            key: "WWW-Authenticate",
+            value: 'Basic realm="downloads.wouter.photo"',
           },
         ],
       },
