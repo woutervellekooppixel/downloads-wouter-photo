@@ -70,16 +70,16 @@ export default async function HomePage() {
               📥 Download ZIP
             </a>
             <pre
-              style={{
-                background: "#f4f4f4",
-                padding: "0.75rem",
-                borderRadius: "4px",
-                marginTop: "1rem",
-                overflowX: "auto",
-              }}
-            >
-              <code>{url}</code>
-            </pre>
+  style={{
+    background: "#f4f4f4",
+    padding: "0.75rem",
+    borderRadius: "4px",
+    marginTop: "1rem",
+    overflowX: "auto",
+  }}
+>
+  <code style={{ color: "#333" }}>{url}</code>
+</pre>
           </div>
         );
       })}
