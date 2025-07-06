@@ -1,8 +1,6 @@
 import path from "path";
 import { promises as fs } from "fs";
-
-// Optioneel: Zet deze bovenaan zodat hij ook bij andere pagina’s herbruikbaar is
-const baseUrl = process.env.BASE_URL ?? "http://localhost:3000";
+import CopyButton from "./components/CopyButton";
 
 type Item = {
   slug: string;
@@ -38,8 +36,7 @@ export default async function HomePage() {
       <h1 style={{ fontSize: "2rem", marginBottom: "1.5rem" }}>Downloads</h1>
 
       {items.map((item) => {
-        const pageUrl = `${baseUrl}/${item.slug}`;
-        const downloadUrl = `/zips/${item.filename}`;
+        const pageUrl = `https://downloads.wouter.photo/${item.slug}`;
 
         return (
           <div
@@ -50,14 +47,16 @@ export default async function HomePage() {
               borderBottom: "1px solid #ccc",
             }}
           >
-            <h2 style={{ fontSize: "1.25rem", marginBottom: "0.5rem" }}>{item.title}</h2>
+            <h2 style={{ fontSize: "1.25rem", marginBottom: "0.5rem" }}>
+              {item.title}
+            </h2>
             <p>
               <strong>Klant:</strong> {item.client}
               <br />
               <strong>Datum:</strong> {item.date}
             </p>
             <a
-              href={downloadUrl}
+              href={`/zips/${item.filename}`}
               download
               style={{
                 display: "inline-block",
@@ -89,27 +88,5 @@ export default async function HomePage() {
         );
       })}
     </main>
-  );
-}
-
-function CopyButton({ text }: { text: string }) {
-  return (
-    <button
-      onClick={async () => {
-        await navigator.clipboard.writeText(text);
-        alert("Link gekopieerd naar klembord ✅");
-      }}
-      style={{
-        marginTop: "0.5rem",
-        padding: "0.5rem 1rem",
-        backgroundColor: "#000",
-        color: "#fff",
-        border: "none",
-        borderRadius: "4px",
-        cursor: "pointer",
-      }}
-    >
-      📋 Kopieer link
-    </button>
   );
 }
