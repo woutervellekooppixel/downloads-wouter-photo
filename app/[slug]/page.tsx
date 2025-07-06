@@ -10,7 +10,7 @@ type PageProps = {
   };
 };
 
-export async function generateStaticParams(): Promise<PageProps["params"][]> {
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
   return files
