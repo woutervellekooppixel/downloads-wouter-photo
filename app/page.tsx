@@ -36,7 +36,7 @@ export default async function HomePage() {
       <h1 style={{ fontSize: "2rem", marginBottom: "1.5rem" }}>Downloads</h1>
 
       {items.map((item) => {
-        const url = `https://downloads.wouter.photo/zips/${item.filename}`;
+        const pageUrl = `https://downloads.wouter.photo/${item.slug}`;
 
         return (
           <div
@@ -70,6 +70,7 @@ export default async function HomePage() {
             >
               📥 Download ZIP
             </a>
+
             <pre
               style={{
                 background: "#f4f4f4",
@@ -79,9 +80,10 @@ export default async function HomePage() {
                 overflowX: "auto",
               }}
             >
-              <code style={{ color: "#333" }}>{url}</code>
+              <code style={{ color: "#333" }}>{pageUrl}</code>
             </pre>
-            <CopyButton text={url} />
+
+            <CopyButton text={pageUrl} />
           </div>
         );
       })}
