@@ -2,9 +2,10 @@ import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
 
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
+
   return files
     .filter((file) => file.endsWith(".zip"))
     .map((file) => {
@@ -20,6 +21,7 @@ export default async function Page({
 }) {
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
+
   const match = files.find(
     (file) => file.startsWith(`${params.slug}__`) && file.endsWith(".zip")
   );
