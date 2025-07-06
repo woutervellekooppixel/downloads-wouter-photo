@@ -14,7 +14,7 @@ export function generateStaticParams() {
     });
 }
 
-// 👇 LET OP: geen async, geen TypeScript types — plain JS-like
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function Page(props: any) {
   const slug = props?.params?.slug;
 
