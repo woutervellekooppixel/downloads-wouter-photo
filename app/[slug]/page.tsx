@@ -2,13 +2,7 @@ import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
 
-type PageProps = {
-  params: {
-    slug: string;
-  };
-};
-
-export async function generateStaticParams(): Promise<{ slug: string }[]> {
+export async function generateStaticParams() {
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
   return files
@@ -19,7 +13,11 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
     });
 }
 
-export default function Page({ params }: PageProps) {
+export default async function Page({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
   const match = files.find(
