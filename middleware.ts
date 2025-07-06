@@ -1,31 +1,35 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// 👇 Wijzig dit naar je eigen gebruikersnaam + wachtwoord
-const USERNAME = "woutervellekoop";
-const PASSWORD = "ZeeMeeuw58!#";
+// 🔐 Inloggegevens
+const USERNAME = "wouter";
+const PASSWORD = "downloads123";
 
 export function middleware(request: NextRequest) {
-  const basicAuth = request.headers.get("authorization");
+  // Alleen beveiligen als het exact de homepage is
+  if (request.nextUrl.pathname === "/") {
+    const auth = request.headers.get("authorization");
 
-  if (basicAuth) {
-    const [, encoded] = basicAuth.split(" ");
-    const [user, pwd] = atob(encoded).split(":");
+    if (auth) {
+      const [, encoded] = auth.split(" ");
+      const [user, pwd] = atob(encoded).split(":");
 
-    if (user === USERNAME && pwd === PASSWORD) {
-      return NextResponse.next();
+      if (user === USERNAME && pwd === PASSWORD) {
+        return NextResponse.next();
+      }
     }
+
+    return new NextResponse("Authentication required", {
+      status: 401,
+      headers: {
+        "WWW-Authenticate": 'Basic realm="downloads.wouter.photo"',
+      },
+    });
   }
 
-  return new NextResponse("Authentication required", {
-    status: 401,
-    headers: {
-      "WWW-Authenticate": 'Basic realm="Secure Area"',
-    },
-  });
+  return NextResponse.next();
 }
 
-// Alleen toepassen op de download-slugs
 export const config = {
-  matcher: ["/:slug"], // of gebruik "/(.*)" als je alles wilt beveiligen
+  matcher: ["/"], // Alleen de root beveiligen
 };
