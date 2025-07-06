@@ -1,8 +1,6 @@
-// app/[slug]/page.tsx
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
-import type { Metadata, ResolvingMetadata } from "next";
 
 type PageProps = {
   params: {
