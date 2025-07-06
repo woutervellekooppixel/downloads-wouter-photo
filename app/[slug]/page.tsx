@@ -2,6 +2,13 @@
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
+import type { Metadata, ResolvingMetadata } from "next";
+
+type PageProps = {
+  params: {
+    slug: string;
+  };
+};
 
 export async function generateStaticParams() {
   const zipDir = path.join(process.cwd(), "public", "zips");
@@ -14,7 +21,7 @@ export async function generateStaticParams() {
     });
 }
 
-export default function Page({ params }: { params: { slug: string } }) {
+export default function Page({ params }: PageProps) {
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
   const match = files.find((file) =>
@@ -35,8 +42,12 @@ export default function Page({ params }: { params: { slug: string } }) {
   return (
     <main style={{ fontFamily: "sans-serif", padding: "2rem" }}>
       <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>{title}</h1>
-      <p style={{ marginBottom: "0.5rem" }}><strong>Klant:</strong> {client}</p>
-      <p style={{ marginBottom: "1.5rem" }}><strong>Datum:</strong> {date}</p>
+      <p style={{ marginBottom: "0.5rem" }}>
+        <strong>Klant:</strong> {client}
+      </p>
+      <p style={{ marginBottom: "1.5rem" }}>
+        <strong>Datum:</strong> {date}
+      </p>
       <a
         href={`/zips/${match}`}
         download
