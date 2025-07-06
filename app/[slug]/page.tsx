@@ -3,12 +3,6 @@ import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
 
-type Props = {
-  params: {
-    slug: string;
-  };
-};
-
 export async function generateStaticParams() {
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
@@ -20,10 +14,12 @@ export async function generateStaticParams() {
     });
 }
 
-export default function DownloadPage({ params }: Props) {
+export default function Page({ params }: { params: { slug: string } }) {
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
-  const match = files.find((file) => file.startsWith(`${params.slug}__`) && file.endsWith(".zip`"));
+  const match = files.find((file) =>
+    file.startsWith(`${params.slug}__`) && file.endsWith(".zip")
+  );
 
   if (!match) {
     notFound();
@@ -53,7 +49,7 @@ export default function DownloadPage({ params }: Props) {
           borderRadius: "4px",
         }}
       >
-        Download ZIP
+        📥 Download ZIP
       </a>
     </main>
   );
