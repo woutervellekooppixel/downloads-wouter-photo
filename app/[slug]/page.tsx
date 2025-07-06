@@ -1,51 +1,56 @@
+// app/[slug]/page.tsx
 import fs from "fs";
 import path from "path";
-
-type Params = {
-  slug: string;
-};
+import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
-  const zipDir = path.join(process.cwd(), "public/zips");
+  const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
-
-  return files
-    .filter((f) => f.endsWith(".zip"))
+  const slugs = files
+    .filter((file) => file.endsWith(".zip"))
     .map((file) => {
       const [slug] = file.split("__");
       return { slug };
     });
+  return slugs;
 }
 
-export default async function DownloadPage({ params }: { params: Params }) {
-  const zipDir = path.join(process.cwd(), "public/zips");
+export default function DownloadPage({ params }: { params: { slug: string } }) {
+  const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
+  const match = files.find((file) => file.startsWith(`${params.slug}__`) && file.endsWith(".zip"));
 
-  const match = files.find((file) => file.startsWith(`${params.slug}__`));
   if (!match) {
-    return <div className="text-center py-20">Download niet gevonden.</div>;
+    notFound();
   }
 
-  const [slug, title, client, dateRaw] = match.replace(".zip", "").split("__");
+  // ⬇️ FIXED: we slaan `slug` over omdat hij niet gebruikt wordt
+  const [, title, client, dateRaw] = match.replace(".zip", "").split("__");
   const date = new Date(dateRaw).toLocaleDateString("nl-NL", {
-    day: "numeric",
-    month: "long",
     year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 
   return (
-    <div className="max-w-xl mx-auto py-20 px-4 text-center">
-      <h1 className="text-3xl font-bold mb-2">{title}</h1>
-      <p className="mb-4 text-gray-600">
-        Voor {client} – {date}
-      </p>
+    <main style={{ fontFamily: "sans-serif", padding: "2rem" }}>
+      <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>{title}</h1>
+      <p style={{ marginBottom: "0.5rem" }}><strong>Klant:</strong> {client}</p>
+      <p style={{ marginBottom: "1.5rem" }}><strong>Datum:</strong> {date}</p>
       <a
         href={`/zips/${match}`}
-        className="inline-block bg-black text-white px-6 py-3 rounded hover:bg-gray-800 transition"
         download
+        style={{
+          display: "inline-block",
+          padding: "0.75rem 1.25rem",
+          backgroundColor: "#000",
+          color: "#fff",
+          textDecoration: "none",
+          borderRadius: "4px",
+        }}
       >
-        📥 Download ZIP
+        Download ZIP
       </a>
-    </div>
+    </main>
   );
 }
