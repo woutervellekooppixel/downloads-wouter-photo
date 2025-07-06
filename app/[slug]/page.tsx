@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
 
@@ -14,16 +14,15 @@ export async function generateStaticParams() {
     });
 }
 
-export default async function Page({
-  params,
-}: {
-  params: { slug: string };
-}) {
+// 👇 LET OP: geen async, geen TypeScript types — plain JS-like
+export default function Page(props: any) {
+  const slug = props?.params?.slug;
+
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
 
   const match = files.find(
-    (file) => file.startsWith(`${params.slug}__`) && file.endsWith(".zip")
+    (file) => file.startsWith(`${slug}__`) && file.endsWith(".zip")
   );
 
   if (!match) {
