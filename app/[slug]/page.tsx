@@ -2,6 +2,9 @@
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const LogoTilt = dynamic(() => import("../../components/LogoTilt"), { ssr: false });
 
 export default function Page(props: any) {
   const slug = props.params.slug;
@@ -28,15 +31,7 @@ export default function Page(props: any) {
       >
         <div className="absolute inset-0 bg-black/40" />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
-          <div className="relative w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center overflow-hidden">
-            <div className="absolute inset-0 border-4 border-white border-dashed rounded-full animate-spin-slow" />
-            <a
-              href={`/api/download-zip?slug=${slug}`}
-              className="relative z-10 text-white bg-black/80 px-6 py-3 rounded-full hover:bg-black transition"
-            >
-              Download
-            </a>
-          </div>
+          <LogoTilt slug={slug} />
           <div className="mt-16 flex flex-col items-center animate-bounce">
             <a href="#gallery" className="text-white text-4xl">↓</a>
             <p className="text-sm mt-2">Klik hier voor alle thumbnails</p>
