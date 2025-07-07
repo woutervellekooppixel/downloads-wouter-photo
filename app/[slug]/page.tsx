@@ -1,4 +1,3 @@
-import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 import fs from "fs";
 import path from "path";
