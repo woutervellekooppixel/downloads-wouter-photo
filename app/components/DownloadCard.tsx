@@ -1,6 +1,3 @@
-// ✅ Oplossing: gebruik een aparte Client Component voor hover-effecten op de knop
-// Stap 1: Maak een nieuw bestand aan: `app/components/DownloadCard.tsx`
-
 "use client";
 
 import React from "react";
@@ -10,14 +7,14 @@ interface DownloadCardProps {
   client: string;
   date: string;
   filename: string;
+  shareUrl: string;
 }
 
-export function DownloadCard({ title, client, date, filename }: DownloadCardProps) {
+export function DownloadCard({ title, client, date, filename, shareUrl }: DownloadCardProps) {
   const downloadUrl = `/zips/${filename}`;
-  const pageUrl = `https://downloads.wouter.photo/${filename.split("__")[0]}`;
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(pageUrl);
+    await navigator.clipboard.writeText(shareUrl);
     alert("Link gekopieerd naar klembord!");
   };
 
@@ -67,7 +64,7 @@ export function DownloadCard({ title, client, date, filename }: DownloadCardProp
           overflowX: "auto",
         }}
       >
-        <code>{pageUrl}</code>
+        <code>{shareUrl}</code>
       </pre>
 
       <button
