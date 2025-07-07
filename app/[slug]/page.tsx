@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
-import HeroSection from "../../components/HeroSection";
+import HeroSection from "../components/HeroSection";
 
 export default function Page({ params }) {
   const slug = params.slug;
