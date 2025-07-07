@@ -2,27 +2,20 @@ import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
 
-export async function generateStaticParams() {
-  const zipDir = path.join(process.cwd(), "public", "zips");
-  const files = fs.readdirSync(zipDir);
+type Params = {
+  slug: string;
+};
 
-  return files
-    .filter((file) => file.endsWith(".zip"))
-    .map((file) => {
-      const [slug] = file.split("__");
-      return { slug };
-    });
-}
-
-export default function Page({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function Page({ params }: { params: Params }) {
   const { slug } = params;
 
+  // Pad naar de map met ZIP-bestanden
   const zipDir = path.join(process.cwd(), "public", "zips");
+
+  // Alle bestanden in de map ophalen
   const files = fs.readdirSync(zipDir);
+
+  // Zoek het bestand dat begint met het slug + dubbele underscores en eindigt op .zip
   const match = files.find(
     (file) => file.startsWith(`${slug}__`) && file.endsWith(".zip")
   );
@@ -31,58 +24,22 @@ export default function Page({
     notFound();
   }
 
-  const [, title, client, dateRaw] = match.replace(".zip", "").split("__");
-  const date = new Date(dateRaw).toLocaleDateString("nl-NL", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  // Bestandsnaam zonder .zip extensie → "slug__title__client__yyyy-mm-dd"
+  const [slugPart, title, client, date] = match.replace(".zip", "").split("__");
 
   return (
-    <main
-      style={{
-        fontFamily: "system-ui, sans-serif",
-        minHeight: "100vh",
-        backgroundColor: "#f6f6f6",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "2rem",
-        textAlign: "center",
-      }}
-    >
-      <div
-        style={{
-          backgroundColor: "#fff",
-          borderRadius: "1rem",
-          padding: "2rem",
-          maxWidth: "600px",
-          width: "100%",
-          boxShadow: "0 10px 20px rgba(0,0,0,0.05)",
-        }}
-      >
-        <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>{title}</h1>
-        <p style={{ marginBottom: "0.5rem", color: "#555" }}>
-          <strong>Klant:</strong> {client}
-        </p>
-        <p style={{ marginBottom: "1.5rem", color: "#555" }}>
-          <strong>Datum:</strong> {date}
-        </p>
+    <main className="flex flex-col items-center justify-center min-h-screen p-8 bg-neutral-100 text-neutral-900">
+      <div className="max-w-2xl text-center">
+        <h1 className="text-3xl font-bold mb-2">{title}</h1>
+        <p className="text-lg text-neutral-600 mb-1">Opdrachtgever: {client}</p>
+        <p className="text-sm text-neutral-500 mb-6">{date}</p>
+
         <a
           href={`/zips/${match}`}
           download
-          style={{
-            display: "inline-block",
-            padding: "0.75rem 1.25rem",
-            backgroundColor: "#000",
-            color: "#fff",
-            textDecoration: "none",
-            borderRadius: "8px",
-            fontWeight: 600,
-            transition: "background 0.3s",
-          }}
+          className="inline-block bg-black text-white py-3 px-6 rounded-lg font-semibold transition hover:bg-neutral-800"
         >
-          📥 Download ZIP
+          Download ZIP
         </a>
       </div>
     </main>
