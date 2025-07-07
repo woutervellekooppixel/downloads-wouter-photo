@@ -1,14 +1,6 @@
-// app/[slug]/page.tsx
-
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
-
-type Props = {
-  params: {
-    slug: string;
-  };
-};
 
 export async function generateMetadata({
   params,
@@ -34,8 +26,11 @@ export async function generateMetadata({
   };
 }
 
-
-export default function Page({ params }: Props) {
+export default function Page({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const slug = params.slug;
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
