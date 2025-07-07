@@ -2,7 +2,6 @@
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 
 export default function Page(props: any) {
   const slug = props.params.slug;
@@ -29,15 +28,13 @@ export default function Page(props: any) {
       >
         <div className="absolute inset-0 bg-black/40" />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
-          <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl shadow-xl max-w-lg w-full">
-            <h1 className="text-3xl font-bold mb-6">
-              {slug.replace(/-/g, " ") + "\u2019s gallery"}
-            </h1>
+          <div className="relative w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center overflow-hidden">
+            <div className="absolute inset-0 border-4 border-white border-dashed rounded-full animate-spin-slow" />
             <a
               href={`/api/download-zip?slug=${slug}`}
-              className="inline-block bg-white text-black px-6 py-3 rounded-full font-semibold hover:bg-gray-200 transition"
+              className="relative z-10 text-white bg-black/80 px-6 py-3 rounded-full hover:bg-black transition"
             >
-              Download alle foto's
+              Download
             </a>
           </div>
           <div className="mt-16 flex flex-col items-center animate-bounce">
@@ -49,14 +46,12 @@ export default function Page(props: any) {
 
       {/* Gallery section */}
       <section id="gallery" className="bg-white py-12 px-4">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {files.map((file) => (
             <div key={file} className="relative group overflow-hidden rounded shadow">
-              <Image
+              <img
                 src={`/photos/${slug}/${file}`}
                 alt={file}
-                width={800}
-                height={600}
                 className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
