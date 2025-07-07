@@ -32,7 +32,7 @@ export default function Page(props: any) {
             <div className="absolute inset-0 border-4 border-white border-dashed rounded-full animate-spin-slow" />
             <a
               href={`/api/download-zip?slug=${slug}`}
-              className="relative z-10 text-white bg-black/80 px-6 py-3 rounded-full hover:bg-black transition"
+              className="relative z-10 text-white px-6 py-3 rounded-full hover:bg-black transition"
             >
               Download
             </a>
