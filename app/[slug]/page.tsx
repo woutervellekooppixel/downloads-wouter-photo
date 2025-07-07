@@ -4,15 +4,14 @@ import { notFound } from "next/navigation";
 import HeroSection from "../components/HeroSection";
 import Image from "next/image";
 
-type Props = {
+interface PageProps {
   params: {
     slug: string;
   };
-};
+}
 
-export default function Page({ params }: Props) {
-  const { slug } = params;
-
+export default function Page({ params }: PageProps) {
+  const slug = params.slug;
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
   if (!fs.existsSync(folderPath)) {
@@ -62,16 +61,14 @@ export default function Page({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-  const photosDir = path.join(process.cwd(), "public", "photos");
+  const dirPath = path.join(process.cwd(), "public", "photos");
 
-  if (!fs.existsSync(photosDir)) return [];
+  if (!fs.existsSync(dirPath)) return [];
 
   const folders = fs
-    .readdirSync(photosDir, { withFileTypes: true })
+    .readdirSync(dirPath, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
-    .map((entry) => ({
-      slug: entry.name,
-    }));
+    .map((entry) => ({ slug: entry.name }));
 
   return folders;
 }
