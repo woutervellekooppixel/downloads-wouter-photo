@@ -1,18 +1,12 @@
-import fs from "fs";
-import path from "path";
-import { notFound } from "next/navigation";
-import HeroSection from "../components/HeroSection";
-import Image from "next/image";
+import fs from 'fs';
+import path from 'path';
+import { notFound } from 'next/navigation';
+import HeroSection from '../components/HeroSection';
+import Image from 'next/image';
 
-interface PageProps {
-  params: {
-    slug: string;
-  };
-}
-
-export default function Page({ params }: PageProps) {
+export default function Page({ params }: { params: { slug: string } }) {
   const slug = params.slug;
-  const folderPath = path.join(process.cwd(), "public", "photos", slug);
+  const folderPath = path.join(process.cwd(), 'public', 'photos', slug);
 
   if (!fs.existsSync(folderPath)) {
     notFound();
@@ -30,7 +24,6 @@ export default function Page({ params }: PageProps) {
     <div className="min-h-screen">
       <HeroSection slug={slug} />
 
-      {/* Gallery section */}
       <section id="gallery" className="bg-white py-12 px-4">
         <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {files.map((file) => (
