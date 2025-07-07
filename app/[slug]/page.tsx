@@ -1,22 +1,38 @@
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
-import type { Metadata } from "next";
-import { generateMetadata as getMetadata } from "./metadata";
+import type { Metadata, ResolvingMetadata } from "next";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
-  return getMetadata(params.slug);
+type PageParams = {
+  params: {
+    slug: string;
+  };
+};
+
+export async function generateMetadata(
+  props: PageParams,
+  _parent?: ResolvingMetadata
+): Promise<Metadata> {
+  const slug = props.params.slug;
+  const zipDir = path.join(process.cwd(), "public", "zips");
+  const files = fs.readdirSync(zipDir);
+  const match = files.find(
+    (file) => file.startsWith(`${slug}__`) && file.endsWith(".zip")
+  );
+
+  if (!match) {
+    return { title: "Bestand niet gevonden" };
+  }
+
+  const [, title, client, date] = match.replace(".zip", "").split("__");
+
+  return {
+    title: `${title} – ${client}`,
+    description: `Download foto's gemaakt op ${date} voor ${client}`,
+  };
 }
 
-export default function Page({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default function Page({ params }: PageParams["params"]) {
   const slug = params.slug;
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
