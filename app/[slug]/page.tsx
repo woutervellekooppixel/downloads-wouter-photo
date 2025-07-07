@@ -25,7 +25,7 @@ export default async function Page({ params }: { params: Params }) {
   }
 
   // Bestandsnaam zonder .zip extensie → "slug__title__client__yyyy-mm-dd"
-  const [slugPart, title, client, date] = match.replace(".zip", "").split("__");
+const [, title, client, date] = match.replace(".zip", "").split("__");
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen p-8 bg-neutral-100 text-neutral-900">
