@@ -36,12 +36,13 @@ export default function Page(props: any) {
               />
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
                 <a
-                  href={`/photos/${slug}/${file}`}
-                  download
-                  className="bg-white text-black rounded-full px-4 py-2 text-sm shadow hover:bg-gray-200 transition"
-                >
-                  ⬇
-                </a>
+  href={`/photos/${slug}/${file}`}
+  download
+  className="bg-white text-black rounded-full px-4 py-2 text-sm shadow transition-opacity opacity-80 group-hover:opacity-100 sm:opacity-80"
+>
+  ⬇
+</a>
+
               </div>
             </div>
           ))}
