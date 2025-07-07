@@ -22,27 +22,30 @@ export default function Page(props: any) {
   return (
     <div className="min-h-screen">
       {/* Hero section */}
-      <section
-        className="h-screen bg-cover bg-center relative"
-        style={{ backgroundImage: `url('/background.jpg')` }}
+<section
+  className="h-screen bg-cover bg-center relative"
+  style={{ backgroundImage: `url('/background.jpg')` }}
+>
+  <div className="absolute inset-0 bg-black/40" />
+  <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
+    <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 max-w-md w-full shadow-lg">
+      <h1 className="text-2xl font-semibold mb-4">
+        {slug.replace(/-/g, " ")}
+      </h1>
+      <a
+        href={`/api/download-zip?slug=${slug}`}
+        className="inline-block bg-black/80 text-white px-6 py-3 rounded-full hover:bg-black transition"
       >
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
-          <div className="relative w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center overflow-hidden">
-            <div className="absolute inset-0 border-4 border-white border-dashed rounded-full animate-spin-slow" />
-            <a
-              href={`/api/download-zip?slug=${slug}`}
-              className="relative z-10 text-white bg-black/80 px-6 py-3 rounded-full hover:bg-black transition"
-            >
-              Download
-            </a>
-          </div>
-          <div className="mt-16 flex flex-col items-center animate-bounce">
-            <a href="#gallery" className="text-white text-4xl">↓</a>
-            <p className="text-sm mt-2">Klik hier voor alle thumbnails</p>
-          </div>
-        </div>
-      </section>
+        Download alle foto's
+      </a>
+    </div>
+
+    <div className="mt-16 flex flex-col items-center animate-bounce">
+      <a href="#gallery" className="text-white text-4xl">↓</a>
+      <p className="text-sm mt-2">Klik hier voor alle thumbnails</p>
+    </div>
+  </div>
+</section>
 
       {/* Gallery section */}
       <section id="gallery" className="bg-white py-12 px-4">
