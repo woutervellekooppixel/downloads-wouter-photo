@@ -61,7 +61,7 @@ export default function Page({ params }: PageProps) {
 }
 
 // ✅ Async versie vereist door Next.js
-export async function generateStaticParams(): Promise<{ slug: string }[]> {
+export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
   const dirPath = path.join(process.cwd(), "public", "photos");
 
   if (!fs.existsSync(dirPath)) return [];
