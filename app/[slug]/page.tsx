@@ -3,7 +3,13 @@ import path from "path";
 import { notFound } from "next/navigation";
 import HeroSection from "../components/HeroSection";
 
-export default function Page({ params }: { params: { slug: string } }) {
+type Params = {
+  params: {
+    slug: string;
+  };
+};
+
+export default function Page({ params }: Params) {
   const slug = params.slug;
 
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
