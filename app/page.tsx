@@ -1,92 +1,49 @@
 import path from "path";
 import { promises as fs } from "fs";
 import CopyButton from "./components/CopyButton";
-
-type Item = {
-  slug: string;
-  title: string;
-  client: string;
-  date: string;
-  filename: string;
-};
+import Link from "next/link";
 
 export default async function HomePage() {
-  const zipDir = path.join(process.cwd(), "public", "zips");
-  const files = await fs.readdir(zipDir);
+  const photosDir = path.join(process.cwd(), "public", "photos");
 
-  const items: Item[] = files
-    .filter((file) => file.endsWith(".zip"))
-    .map((file) => {
-      const [slug, title, client, dateRaw] = file.replace(".zip", "").split("__");
-      return {
-        slug,
-        title,
-        client,
-        date: new Date(dateRaw).toLocaleDateString("nl-NL", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        }),
-        filename: file,
-      };
-    });
+  let folders: string[] = [];
+  try {
+    const entries = await fs.readdir(photosDir, { withFileTypes: true });
+    folders = entries.filter((e) => e.isDirectory()).map((e) => e.name);
+  } catch (err) {
+    console.error("Kan mappen niet lezen:", err);
+  }
 
   return (
-    <main style={{ fontFamily: "sans-serif", padding: "2rem" }}>
-      <h1 style={{ fontSize: "2rem", marginBottom: "1.5rem" }}>Downloads</h1>
-
-      {items.map((item) => {
-        const pageUrl = `https://downloads.wouter.photo/${item.slug}`;
-
-        return (
-          <div
-            key={item.slug}
-            style={{
-              marginBottom: "2rem",
-              paddingBottom: "1rem",
-              borderBottom: "1px solid #ccc",
-            }}
-          >
-            <h2 style={{ fontSize: "1.25rem", marginBottom: "0.5rem" }}>
-              {item.title}
-            </h2>
-            <p>
-              <strong>Klant:</strong> {item.client}
-              <br />
-              <strong>Datum:</strong> {item.date}
-            </p>
-            <a
-              href={`/zips/${item.filename}`}
-              download
-              style={{
-                display: "inline-block",
-                marginTop: "0.5rem",
-                padding: "0.5rem 1rem",
-                backgroundColor: "#000",
-                color: "#fff",
-                textDecoration: "none",
-                borderRadius: "4px",
-              }}
-            >
-              📥 Download ZIP
-            </a>
-
-            <pre
-              style={{
-                background: "#f4f4f4",
-                padding: "0.75rem",
-                borderRadius: "4px",
-                marginTop: "1rem",
-                overflowX: "auto",
-              }}
-            >
-              <code style={{ color: "#333" }}>{pageUrl}</code>
-            </pre>
-
-            <CopyButton text={pageUrl} />
-          </div>
-        );
-      })}
+    <main style={{ padding: "2rem", fontFamily: "sans-serif" }}>
+      <h1 style={{ marginBottom: "1rem" }}>📁 Mijn fotoprojecten</h1>
+      <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        <thead>
+          <tr>
+            <th align="left">Titel (slug)</th>
+            <th align="left">Link</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {folders.map((slug) => {
+            const url = `https://jouwdomein.nl/${slug}`;
+            return (
+              <tr key={slug} style={{ borderTop: "1px solid #ccc" }}>
+                <td style={{ padding: "0.5rem 0" }}>{slug}</td>
+                <td>
+                  <Link href={`/${slug}`} style={{ color: "#0070f3" }}>
+                    {url}
+                  </Link>
+                </td>
+                <td>
+                  <CopyButton text={url} />
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </main>
   );
 }
