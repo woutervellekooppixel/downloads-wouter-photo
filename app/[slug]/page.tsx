@@ -1,21 +1,39 @@
+// app/[slug]/page.tsx
+
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
 
-type Params = {
-  slug: string;
+type Props = {
+  params: {
+    slug: string;
+  };
 };
 
-export default async function Page({ params }: { params: Params }) {
-  const { slug } = params;
-
-  // Pad naar de map met ZIP-bestanden
+export async function generateMetadata({ params }: Props) {
+  const slug = params.slug;
   const zipDir = path.join(process.cwd(), "public", "zips");
-
-  // Alle bestanden in de map ophalen
   const files = fs.readdirSync(zipDir);
+  const match = files.find(
+    (file) => file.startsWith(`${slug}__`) && file.endsWith(".zip")
+  );
 
-  // Zoek het bestand dat begint met het slug + dubbele underscores en eindigt op .zip
+  if (!match) {
+    return { title: "Bestand niet gevonden" };
+  }
+
+  const [, title, client, date] = match.replace(".zip", "").split("__");
+
+  return {
+    title: `${title} – ${client}`,
+    description: `Download foto's gemaakt op ${date} voor ${client}`,
+  };
+}
+
+export default function Page({ params }: Props) {
+  const slug = params.slug;
+  const zipDir = path.join(process.cwd(), "public", "zips");
+  const files = fs.readdirSync(zipDir);
   const match = files.find(
     (file) => file.startsWith(`${slug}__`) && file.endsWith(".zip")
   );
@@ -24,24 +42,30 @@ export default async function Page({ params }: { params: Params }) {
     notFound();
   }
 
-  // Bestandsnaam zonder .zip extensie → "slug__title__client__yyyy-mm-dd"
-const [, title, client, date] = match.replace(".zip", "").split("__");
+  const [, title, client, date] = match.replace(".zip", "").split("__");
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen p-8 bg-neutral-100 text-neutral-900">
-      <div className="max-w-2xl text-center">
-        <h1 className="text-3xl font-bold mb-2">{title}</h1>
-        <p className="text-lg text-neutral-600 mb-1">Opdrachtgever: {client}</p>
-        <p className="text-sm text-neutral-500 mb-6">{date}</p>
-
-        <a
-          href={`/zips/${match}`}
-          download
-          className="inline-block bg-black text-white py-3 px-6 rounded-lg font-semibold transition hover:bg-neutral-800"
-        >
-          Download ZIP
-        </a>
-      </div>
-    </main>
+    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
+      <h1>{title}</h1>
+      <p>
+        Voor: <strong>{client}</strong>
+      </p>
+      <p>Datum: {date}</p>
+      <a
+        href={`/zips/${match}`}
+        download
+        style={{
+          display: "inline-block",
+          marginTop: "1rem",
+          padding: "0.5rem 1rem",
+          background: "black",
+          color: "white",
+          textDecoration: "none",
+          borderRadius: "4px",
+        }}
+      >
+        Download ZIP
+      </a>
+    </div>
   );
 }
