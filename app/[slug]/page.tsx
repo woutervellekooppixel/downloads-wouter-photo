@@ -1,7 +1,12 @@
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
-import type { PageProps } from "next"; // ✅ juiste type importeren
+
+type PageProps = {
+  params: {
+    slug: string;
+  };
+};
 
 export async function generateStaticParams() {
   const zipDir = path.join(process.cwd(), "public", "zips");
