@@ -1,11 +1,11 @@
 import fs from 'fs';
 import path from 'path';
 import { notFound } from 'next/navigation';
-import HeroSection from '../components/HeroSection';
+import HeroSection from '../../components/HeroSection';
 import Image from 'next/image';
 
 export default function Page({ params }: { params: { slug: string } }) {
-  const slug = params.slug;
+  const { slug } = params;
   const folderPath = path.join(process.cwd(), 'public', 'photos', slug);
 
   if (!fs.existsSync(folderPath)) {
