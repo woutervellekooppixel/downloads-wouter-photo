@@ -1,53 +1,42 @@
-import archiver from "archiver";
-import { NextRequest } from "next/server";
-import fs from "fs";
-import path from "path";
-import { PassThrough } from "stream";
+import { NextRequest, NextResponse } from 'next/server';
+import path from 'path';
+import fs from 'fs';
+import archiver from 'archiver';
 
 export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-  const slug = searchParams.get("slug");
+  const slug = req.nextUrl.searchParams.get('slug');
+  if (!slug) return new NextResponse('Slug is required', { status: 400 });
 
-  if (!slug) {
-    return new Response("Slug is verplicht", { status: 400 });
-  }
+  const folderPath = path.join(process.cwd(), 'public', 'photos', slug);
+  if (!fs.existsSync(folderPath)) return new NextResponse('Folder not found', { status: 404 });
 
-  const folderPath = path.join(process.cwd(), "public", "photos", slug);
-
-  if (!fs.existsSync(folderPath)) {
-    return new Response("Map niet gevonden", { status: 404 });
-  }
-
-  const files = fs.readdirSync(folderPath).filter((file) =>
+  const files = fs.readdirSync(folderPath).filter(file =>
     /\.(jpe?g|png|webp)$/i.test(file)
   );
 
-  if (files.length === 0) {
-    return new Response("Geen afbeeldingen gevonden", { status: 404 });
-  }
+  if (files.length === 0) return new NextResponse('No images found', { status: 404 });
 
-  const zipStream = new PassThrough();
-  const archive = archiver("zip", { zlib: { level: 9 } });
+  const zipStream = new ReadableStream({
+    start(controller) {
+      const archive = archiver('zip', { zlib: { level: 9 } });
 
-  archive.on("error", (err) => {
-    console.error("Archiver error:", err);
-    zipStream.end();
+      archive.on('data', chunk => controller.enqueue(chunk));
+      archive.on('end', () => controller.close());
+      archive.on('error', err => controller.error(err));
+
+      files.forEach(file => {
+        const filePath = path.join(folderPath, file);
+        archive.file(filePath, { name: file });
+      });
+
+      archive.finalize();
+    },
   });
 
-  archive.pipe(zipStream);
-
-  for (const file of files) {
-    const filePath = path.join(folderPath, file);
-    archive.file(filePath, { name: file });
-  }
-
-  archive.finalize();
-
-return new Response(zipStream as unknown as BodyInit, {
-  headers: {
-    "Content-Type": "application/zip",
-    "Content-Disposition": `attachment; filename="${slug}.zip"`,
-  },
-});
-
+  return new NextResponse(zipStream, {
+    headers: {
+      'Content-Type': 'application/zip',
+      'Content-Disposition': `attachment; filename="${slug}.zip"`,
+    },
+  });
 }

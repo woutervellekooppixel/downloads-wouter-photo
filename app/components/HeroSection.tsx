@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import styles from './HeroSection.module.css';
 
-export default function HeroSection() {
+export default function HeroSection({ slug }: { slug: string }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -11,7 +11,7 @@ export default function HeroSection() {
       current += 1;
       setProgress(current);
       if (current >= 100) clearInterval(interval);
-    }, 20); // 0 → 100 in ~2s
+    }, 20);
     return () => clearInterval(interval);
   }, []);
 
@@ -24,29 +24,31 @@ export default function HeroSection() {
 
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
         <div className={styles.circleWrapper}>
-          <svg className={styles.circle} viewBox="0 0 100 100">
-            <circle
-              className={styles.track}
-              cx="50"
-              cy="50"
-              r="45"
-              strokeWidth="5"
-              fill="none"
-            />
-            <circle
-              className={styles.progress}
-              cx="50"
-              cy="50"
-              r="45"
-              strokeWidth="5"
-              fill="none"
-              strokeDasharray="282.6"
-              strokeDashoffset={282.6 - (progress / 100) * 282.6}
-            />
-            <text x="50%" y="50%" textAnchor="middle" dy=".3em" className={styles.text}>
-              {progress}%
-            </text>
-          </svg>
+          {progress < 100 ? (
+            <svg className={styles.circle} viewBox="0 0 100 100">
+              <circle className={styles.track} cx="50" cy="50" r="45" strokeWidth="5" fill="none" />
+              <circle
+                className={styles.progress}
+                cx="50"
+                cy="50"
+                r="45"
+                strokeWidth="5"
+                fill="none"
+                strokeDasharray="282.6"
+                strokeDashoffset={282.6 - (progress / 100) * 282.6}
+              />
+              <text x="50%" y="50%" textAnchor="middle" dy=".3em" className={styles.text}>
+                {progress}%
+              </text>
+            </svg>
+          ) : (
+            <a
+              href={`/api/download-zip?slug=${slug}`}
+              className="bg-white text-black rounded-full px-6 py-3 text-lg font-semibold shadow transition hover:bg-gray-200"
+            >
+              ⬇ Download alles
+            </a>
+          )}
         </div>
 
         {progress >= 100 && (
