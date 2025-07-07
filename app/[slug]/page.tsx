@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import fs from "fs";
 import path from "path";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
-// Genereer statische routes op basis van mappen in /public/photos
 export async function generateStaticParams() {
   const photosDir = path.join(process.cwd(), "public", "photos");
   const slugs = fs.readdirSync(photosDir).filter((name) => {
@@ -15,8 +15,8 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
-export default function Page({ params }: { params: { slug: string } }) {
-  const slug = params.slug;
+export default function Page(props: any) {
+  const slug = props.params.slug;
   const photoDir = path.join(process.cwd(), "public", "photos", slug);
 
   if (!fs.existsSync(photoDir)) {
@@ -54,7 +54,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         }}
       >
         <h1 style={{ fontSize: "2rem", marginBottom: "1rem", textAlign: "center" }}>
-        Download jouw foto&apos;s
+          📸 Download jouw foto&apos;s
         </h1>
 
         <div
