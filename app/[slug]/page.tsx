@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
@@ -14,13 +17,7 @@ export async function generateStaticParams() {
     });
 }
 
-type PageProps = {
-  params: {
-    slug: string;
-  };
-};
-
-export default function Page({ params }: any) {
+export default async function Page({ params }: any) {
   const slug = params.slug;
 
   const zipDir = path.join(process.cwd(), "public", "zips");
