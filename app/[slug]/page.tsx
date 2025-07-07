@@ -1,3 +1,5 @@
+export const dynamicParams = true;
+
 import fs from 'fs';
 import path from 'path';
 import { notFound } from 'next/navigation';
