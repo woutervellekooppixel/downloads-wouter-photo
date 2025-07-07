@@ -2,6 +2,7 @@
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 
 export default function Page(props: any) {
   const slug = props.params.slug;
@@ -22,39 +23,40 @@ export default function Page(props: any) {
   return (
     <div className="min-h-screen">
       {/* Hero section */}
-<section
-  className="h-screen bg-cover bg-center relative"
-  style={{ backgroundImage: `url('/background.jpg')` }}
->
-  <div className="absolute inset-0 bg-black/40" />
-  <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
-    <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 max-w-md w-full shadow-lg">
-      <h1 className="text-2xl font-semibold mb-4">
-        {slug.replace(/-/g, " ")}
-      </h1>
-      <a
-        href={`/api/download-zip?slug=${slug}`}
-        className="inline-block bg-black/80 text-white px-6 py-3 rounded-full hover:bg-black transition"
+      <section
+        className="h-screen bg-cover bg-center relative"
+        style={{ backgroundImage: `url('/background.jpg')` }}
       >
-        Download alle foto's
-      </a>
-    </div>
-
-    <div className="mt-16 flex flex-col items-center animate-bounce">
-      <a href="#gallery" className="text-white text-4xl">↓</a>
-      <p className="text-sm mt-2">Klik hier voor alle thumbnails</p>
-    </div>
-  </div>
-</section>
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
+          <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl shadow-xl max-w-lg w-full">
+            <h1 className="text-3xl font-bold mb-6">
+              {slug.replace(/-/g, " ") + "\u2019s gallery"}
+            </h1>
+            <a
+              href={`/api/download-zip?slug=${slug}`}
+              className="inline-block bg-white text-black px-6 py-3 rounded-full font-semibold hover:bg-gray-200 transition"
+            >
+              Download alle foto's
+            </a>
+          </div>
+          <div className="mt-16 flex flex-col items-center animate-bounce">
+            <a href="#gallery" className="text-white text-4xl">↓</a>
+            <p className="text-sm mt-2">Klik hier voor alle thumbnails</p>
+          </div>
+        </div>
+      </section>
 
       {/* Gallery section */}
       <section id="gallery" className="bg-white py-12 px-4">
-        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {files.map((file) => (
             <div key={file} className="relative group overflow-hidden rounded shadow">
-              <img
+              <Image
                 src={`/photos/${slug}/${file}`}
                 alt={file}
+                width={800}
+                height={600}
                 className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
