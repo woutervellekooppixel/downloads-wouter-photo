@@ -1,50 +1,123 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import fs from "fs";
 import path from "path";
+import Image from "next/image";
 import { notFound } from "next/navigation";
-import type { Metadata } from "next";
-import { generateMetadata as getMetadata } from "./metadata";
+import Link from "next/link";
 
-export async function generateMetadata(props: any): Promise<Metadata> {
-  return getMetadata(props.params.slug);
+// Genereer statische routes op basis van mappen in /public/photos
+export async function generateStaticParams() {
+  const photosDir = path.join(process.cwd(), "public", "photos");
+  const slugs = fs.readdirSync(photosDir).filter((name) => {
+    const fullPath = path.join(photosDir, name);
+    return fs.statSync(fullPath).isDirectory();
+  });
+
+  return slugs.map((slug) => ({ slug }));
 }
 
-export default function Page(props: any) {
-  const slug = props.params.slug;
-  const zipDir = path.join(process.cwd(), "public", "zips");
-  const files = fs.readdirSync(zipDir);
-  const match = files.find(
-    (file) => file.startsWith(`${slug}__`) && file.endsWith(".zip")
-  );
+export default function Page({ params }: { params: { slug: string } }) {
+  const slug = params.slug;
+  const photoDir = path.join(process.cwd(), "public", "photos", slug);
 
-  if (!match) {
+  if (!fs.existsSync(photoDir)) {
     notFound();
   }
 
-  const [, title, client, date] = match.replace(".zip", "").split("__");
+  const files = fs
+    .readdirSync(photoDir)
+    .filter((file) => /\.(jpe?g|png|webp)$/i.test(file));
+
+  if (files.length === 0) {
+    return <p style={{ padding: "2rem" }}>Geen foto's gevonden voor {slug}.</p>;
+  }
 
   return (
-    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-      <h1>{title}</h1>
-      <p>
-        Voor: <strong>{client}</strong>
-      </p>
-      <p>Datum: {date}</p>
-      <a
-        href={`/zips/${match}`}
-        download
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(to bottom right, #f0f0f0, #ffffff)",
+        fontFamily: "sans-serif",
+        padding: "2rem",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <div
         style={{
-          display: "inline-block",
-          marginTop: "1rem",
-          padding: "0.5rem 1rem",
-          background: "black",
-          color: "white",
-          textDecoration: "none",
-          borderRadius: "4px",
+          maxWidth: "960px",
+          width: "100%",
+          background: "#fff",
+          borderRadius: "16px",
+          padding: "2rem",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
         }}
       >
-        Download ZIP
-      </a>
+        <h1 style={{ fontSize: "2rem", marginBottom: "1rem", textAlign: "center" }}>
+          📸 Download jouw foto's
+        </h1>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+            gap: "1.5rem",
+            marginBottom: "2rem",
+          }}
+        >
+          {files.map((file) => (
+            <div key={file} style={{ textAlign: "center" }}>
+              <Image
+                src={`/photos/${slug}/${file}`}
+                alt={file}
+                width={400}
+                height={300}
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  borderRadius: "8px",
+                  objectFit: "cover",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                }}
+              />
+              <a
+                href={`/photos/${slug}/${file}`}
+                download
+                style={{
+                  display: "inline-block",
+                  marginTop: "0.5rem",
+                  padding: "0.5rem 1rem",
+                  background: "#000",
+                  color: "#fff",
+                  borderRadius: "6px",
+                  textDecoration: "none",
+                  fontSize: "0.9rem",
+                }}
+              >
+                ⬇️ Download
+              </a>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ textAlign: "center" }}>
+          <Link
+            href={`/api/download-zip?slug=${slug}`}
+            style={{
+              background: "#007aff",
+              color: "#fff",
+              padding: "1rem 2rem",
+              borderRadius: "10px",
+              textDecoration: "none",
+              fontSize: "1rem",
+              fontWeight: "bold",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+            }}
+          >
+            📦 Download alles als ZIP
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
