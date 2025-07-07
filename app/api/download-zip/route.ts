@@ -1,7 +1,8 @@
+// @ts-expect-error: archiver has no types
+import archiver from "archiver";
 import { NextRequest } from "next/server";
 import fs from "fs";
 import path from "path";
-import archiver from "archiver";
 import { Readable } from "stream";
 
 export async function GET(req: NextRequest) {
