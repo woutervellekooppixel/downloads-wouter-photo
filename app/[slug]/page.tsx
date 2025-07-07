@@ -10,9 +10,9 @@ type PageParams = {
 };
 
 export async function generateMetadata(
-  props: PageParams,
-  _parent?: ResolvingMetadata
+  props: PageParams
 ): Promise<Metadata> {
+
   const slug = props.params.slug;
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
