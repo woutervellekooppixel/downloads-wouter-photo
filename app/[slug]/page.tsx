@@ -4,7 +4,13 @@ import { notFound } from 'next/navigation';
 import HeroSection from '../components/HeroSection';
 import Image from 'next/image';
 
-export default function Page({ params }: any) {
+type Props = {
+  params: {
+    slug: string;
+  };
+};
+
+export default function Page({ params }: Props) {
   const slug = params.slug;
   const folderPath = path.join(process.cwd(), 'public', 'photos', slug);
 
