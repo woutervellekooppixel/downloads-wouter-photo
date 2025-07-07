@@ -29,7 +29,7 @@ export default function Page(props: any) {
         <div className="absolute inset-0 bg-black/40" />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
           <div className="relative w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center overflow-hidden">
-            <div className="absolute inset-0 border-4 border-white border-dashed rounded-full animate-spin-slow" />
+            <div className="absolute inset-0 border-4 border-white rounded-full animate-spin-slow" />
             <a
               href={`/api/download-zip?slug=${slug}`}
               className="relative z-10 text-white px-6 py-3 rounded-full hover:bg-black transition"
