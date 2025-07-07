@@ -22,7 +22,7 @@ export default function Page(props: any) {
 
   return (
     <div className="min-h-screen">
-      <HeroSection slug={slug} />
+      <HeroSection/>
 
       {/* Gallery section */}
       <section id="gallery" className="bg-white py-12 px-4">
