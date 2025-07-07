@@ -12,8 +12,7 @@
     "archiver": "^7.0.1",
     "next": "15.3.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "vanilla-tilt": "^1.8.1"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
