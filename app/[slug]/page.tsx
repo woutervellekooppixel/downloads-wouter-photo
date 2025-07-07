@@ -28,7 +28,7 @@ export default function Page(props: any) {
       >
         <div className="absolute inset-0 bg-black/40" />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
-          <h1 className="text-4xl font-bold mb-4">Download foto's</h1>
+          <h1 className="text-4xl font-bold mb-4">Download foto’s</h1>
           <a
             href={`/api/download-zip?slug=${slug}`}
             className="bg-white text-black px-6 py-3 rounded shadow hover:bg-gray-100 transition"
