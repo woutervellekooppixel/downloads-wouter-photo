@@ -3,7 +3,6 @@ import path from 'path';
 import { notFound } from 'next/navigation';
 import HeroSection from '../components/HeroSection';
 import Image from 'next/image';
-import type { Metadata } from 'next';
 
 type PageProps = {
   params: {
