@@ -1,11 +1,10 @@
-import { notFound } from "next/navigation";
 import fs from "fs";
 import path from "path";
+import { notFound } from "next/navigation";
 import Image from "next/image";
 import HeroSection from "../components/HeroSection";
-import type { PageProps } from "next";
 
-export default function Page({ params }: PageProps<{ slug: string }>) {
+export default function Page({ params }: { params: { slug: string } }) {
   const slug = params.slug;
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
@@ -55,7 +54,7 @@ export default function Page({ params }: PageProps<{ slug: string }>) {
   );
 }
 
-export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
+export async function generateStaticParams() {
   const dirPath = path.join(process.cwd(), "public", "photos");
 
   if (!fs.existsSync(dirPath)) return [];
@@ -65,5 +64,7 @@ export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
     .filter((entry) => entry.isDirectory())
     .map((entry) => ({ slug: entry.name }));
 
-  return folders;
+  return folders.map((folder) => ({
+    params: { slug: folder.slug },
+  }));
 }
