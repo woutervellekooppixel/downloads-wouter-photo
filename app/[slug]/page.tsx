@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
@@ -22,7 +21,7 @@ export default function Page(props: any) {
 
   return (
     <div className="min-h-screen">
-      <HeroSection/>
+      <HeroSection slug={slug} />
 
       {/* Gallery section */}
       <section id="gallery" className="bg-white py-12 px-4">
@@ -34,15 +33,14 @@ export default function Page(props: any) {
                 alt={file}
                 className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+              <div className="absolute inset-0 bg-black/40 opacity-80 flex items-center justify-center sm:opacity-0 sm:group-hover:opacity-80 transition duration-300">
                 <a
-  href={`/photos/${slug}/${file}`}
-  download
-  className="bg-white text-black rounded-full px-4 py-2 text-sm shadow transition-opacity opacity-80 group-hover:opacity-100 sm:opacity-80"
->
-  ⬇
-</a>
-
+                  href={`/photos/${slug}/${file}`}
+                  download
+                  className="bg-white text-black rounded-full px-4 py-2 text-sm shadow"
+                >
+                  ⬇
+                </a>
               </div>
             </div>
           ))}
