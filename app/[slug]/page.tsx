@@ -37,28 +37,59 @@ export default function Page(props: any) {
   });
 
   return (
-    <main style={{ fontFamily: "sans-serif", padding: "2rem" }}>
-      <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>{title}</h1>
-      <p style={{ marginBottom: "0.5rem" }}>
-        <strong>Klant:</strong> {client}
-      </p>
-      <p style={{ marginBottom: "1.5rem" }}>
-        <strong>Datum:</strong> {date}
-      </p>
-      <a
-        href={`/zips/${match}`}
-        download
+    <main
+      style={{
+        fontFamily: "sans-serif",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        backgroundColor: "#f2f2f2",
+        padding: "2rem",
+      }}
+    >
+      <div
         style={{
-          display: "inline-block",
-          padding: "0.75rem 1.25rem",
-          backgroundColor: "#000",
-          color: "#fff",
-          textDecoration: "none",
-          borderRadius: "4px",
+          maxWidth: "500px",
+          width: "100%",
+          background: "#fff",
+          padding: "2rem",
+          borderRadius: "16px",
+          boxShadow: "0 12px 24px rgba(0, 0, 0, 0.1)",
+          textAlign: "center",
         }}
       >
-        📥 Download ZIP
-      </a>
+        <h1 style={{ fontSize: "1.75rem", marginBottom: "1rem" }}>{title}</h1>
+        <p style={{ margin: "0.5rem 0", fontSize: "1rem" }}>
+          📁 <strong>Klant:</strong> {client}
+        </p>
+        <p style={{ margin: "0.5rem 0", fontSize: "1rem" }}>
+          🗓️ <strong>Datum:</strong> {date}
+        </p>
+        <a
+          href={`/zips/${match}`}
+          download
+          style={{
+            display: "inline-block",
+            marginTop: "1.5rem",
+            padding: "0.75rem 1.5rem",
+            fontSize: "1rem",
+            backgroundColor: "#007aff",
+            color: "#fff",
+            textDecoration: "none",
+            borderRadius: "8px",
+            transition: "background-color 0.2s ease",
+          }}
+          onMouseOver={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "#005cd6";
+          }}
+          onMouseOut={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "#007aff";
+          }}
+        >
+          📥 Download ZIP
+        </a>
+      </div>
     </main>
   );
 }
