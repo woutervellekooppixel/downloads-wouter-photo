@@ -1,4 +1,3 @@
-// @ts-expect-error: archiver has no types
 import archiver from "archiver";
 import { NextRequest } from "next/server";
 import fs from "fs";
