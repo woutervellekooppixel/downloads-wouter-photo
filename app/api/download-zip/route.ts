@@ -2,7 +2,6 @@ import archiver from "archiver";
 import { NextRequest } from "next/server";
 import fs from "fs";
 import path from "path";
-import { Readable } from "stream";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -26,17 +25,36 @@ export async function GET(req: NextRequest) {
     return new Response("Geen afbeeldingen gevonden", { status: 404 });
   }
 
-  const archive = archiver("zip", { zlib: { level: 9 } });
-  const stream = new Readable().wrap(archive);
+  const { readable, writable } = new TransformStream();
+  const writer = writable.getWriter();
 
-  files.forEach((file) => {
+  const archive = archiver("zip", { zlib: { level: 9 } });
+
+  archive.on("error", (err) => {
+    console.error("Archiver error:", err);
+    writer.abort(err);
+  });
+
+  archive.pipe(new WritableStream({
+    write(chunk) {
+      return writer.write(chunk);
+    },
+    close() {
+      return writer.close();
+    },
+    abort(err) {
+      return writer.abort(err);
+    },
+  }));
+
+  for (const file of files) {
     const filePath = path.join(folderPath, file);
     archive.file(filePath, { name: file });
-  });
+  }
 
   archive.finalize();
 
-  return new Response(stream as unknown as BodyInit, {
+  return new Response(readable, {
     headers: {
       "Content-Type": "application/zip",
       "Content-Disposition": `attachment; filename="${slug}.zip"`,
