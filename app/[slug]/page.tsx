@@ -3,7 +3,7 @@ import path from "path";
 import { notFound } from "next/navigation";
 import { DownloadCard } from "../components/DownloadCard";
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
 
@@ -15,13 +15,13 @@ export function generateStaticParams() {
     });
 }
 
-// ✅ Gebruik inline type zonder imports
+// ✅ LET OP: GEEN PageProps of extra types
 export default async function Page({
   params,
 }: {
   params: { slug: string };
 }) {
-  const slug = params.slug;
+  const { slug } = params;
 
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
@@ -30,7 +30,9 @@ export default async function Page({
     (file) => file.startsWith(`${slug}__`) && file.endsWith(".zip")
   );
 
-  if (!match) notFound();
+  if (!match) {
+    notFound();
+  }
 
   const [, title, client, dateRaw] = match.replace(".zip", "").split("__");
   const date = new Date(dateRaw).toLocaleDateString("nl-NL", {
@@ -39,8 +41,6 @@ export default async function Page({
     day: "numeric",
   });
 
-  const shareUrl = `https://downloads.wouter.photo/${slug}`;
-
   return (
     <main style={{ fontFamily: "sans-serif", padding: "2rem" }}>
       <DownloadCard
@@ -48,7 +48,7 @@ export default async function Page({
         client={client}
         date={date}
         filename={match}
-        shareUrl={shareUrl}
+        shareUrl={`https://downloads.wouter.photo/${slug}`}
       />
     </main>
   );
