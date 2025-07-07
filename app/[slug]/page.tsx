@@ -20,7 +20,7 @@ type PageProps = {
   };
 };
 
-export default async function Page({ params }: PageProps) {
+export default function Page({ params }: any) {
   const slug = params.slug;
 
   const zipDir = path.join(process.cwd(), "public", "zips");
