@@ -1,70 +1,49 @@
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
-import Image from "next/image";
-import HeroSection from "../components/HeroSection";
 
 export default function Page({ params }: { params: { slug: string } }) {
-  const slug = params.slug;
-  const folderPath = path.join(process.cwd(), "public", "photos", slug);
+  const zipDir = path.join(process.cwd(), "public", "zips");
+  const zipFiles = fs.readdirSync(zipDir);
+  const matchingZip = zipFiles.find((file) => file.startsWith(`${params.slug}__`) && file.endsWith(".zip"));
 
-  if (!fs.existsSync(folderPath)) {
-    notFound();
-  }
+  if (!matchingZip) return notFound();
 
-  const files = fs
-    .readdirSync(folderPath)
-    .filter((file) => /\.(jpe?g|png|webp)$/i.test(file));
-
-  if (files.length === 0) {
-    notFound();
-  }
+  const [_, title, client, dateWithExt] = matchingZip.split("__");
+  const date = dateWithExt.replace(".zip", "");
 
   return (
-    <div className="min-h-screen">
-      <HeroSection slug={slug} />
-      <section id="gallery" className="bg-white py-12 px-4">
-        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {files.map((file) => (
-            <div
-              key={file}
-              className="relative group overflow-hidden rounded shadow"
-            >
-              <Image
-                src={`/photos/${slug}/${file}`}
-                alt={file}
-                width={800}
-                height={600}
-                className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/40 opacity-80 sm:opacity-0 sm:group-hover:opacity-80 transition duration-300 flex items-center justify-center">
-                <a
-                  href={`/photos/${slug}/${file}`}
-                  download
-                  className="bg-white text-black rounded-full px-4 py-2 text-sm shadow hover:bg-gray-200 transition"
-                >
-                  ⬇
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-    </div>
+    <main style={{ padding: "4rem", fontFamily: "sans-serif" }}>
+      <h1 style={{ fontSize: "2rem" }}>{title}</h1>
+      <p style={{ fontSize: "1.2rem", color: "#666" }}>{client} — {date}</p>
+      <a
+        href={`/zips/${matchingZip}`}
+        download
+        style={{
+          display: "inline-block",
+          marginTop: "2rem",
+          background: "black",
+          color: "white",
+          padding: "1rem 2rem",
+          textDecoration: "none",
+          borderRadius: "0.5rem",
+        }}
+      >
+        Download ZIP
+      </a>
+    </main>
   );
 }
 
 export async function generateStaticParams() {
-  const dirPath = path.join(process.cwd(), "public", "photos");
+  const zipDir = path.join(process.cwd(), "public", "zips");
 
-  if (!fs.existsSync(dirPath)) return [];
+  if (!fs.existsSync(zipDir)) return [];
 
-  const folders = fs
-    .readdirSync(dirPath, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => ({ slug: entry.name }));
-
-  return folders.map((folder) => ({
-    params: { slug: folder.slug },
-  }));
+  return fs
+    .readdirSync(zipDir)
+    .filter((file) => file.endsWith(".zip") && file.includes("__"))
+    .map((file) => ({
+      slug: file.split("__")[0],
+    }));
 }
