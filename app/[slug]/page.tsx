@@ -1,4 +1,4 @@
-export const dynamicParams = true;
+export const dynamicParams = true; 
 
 import fs from 'fs';
 import path from 'path';
