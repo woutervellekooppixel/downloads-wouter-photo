@@ -14,7 +14,7 @@ export async function generateStaticParams() {
     });
 }
 
-export default async function Page({
+export default function Page({
   params,
 }: {
   params: { slug: string };
@@ -23,9 +23,8 @@ export default async function Page({
 
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
-
   const match = files.find(
-    (file) => file.startsWith(`${slug}__`) && file.endsWith(".zip")
+    (file) => file.startsWith(`${slug}__`) && file.endsWith(".zip`)
   );
 
   if (!match) {
