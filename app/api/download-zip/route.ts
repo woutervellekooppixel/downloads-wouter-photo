@@ -43,10 +43,11 @@ export async function GET(req: NextRequest) {
 
   archive.finalize();
 
-  return new Response(zipStream as any, {
-    headers: {
-      "Content-Type": "application/zip",
-      "Content-Disposition": `attachment; filename="${slug}.zip"`,
-    },
-  });
+return new Response(zipStream as unknown as BodyInit, {
+  headers: {
+    "Content-Type": "application/zip",
+    "Content-Disposition": `attachment; filename="${slug}.zip"`,
+  },
+});
+
 }
