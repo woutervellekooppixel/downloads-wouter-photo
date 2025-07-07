@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
-import DownloadCard from "../components/DownloadCard";
+import { DownloadCard } from "../components/DownloadCard";
 
 export function generateStaticParams() {
   const zipDir = path.join(process.cwd(), "public", "zips");
@@ -42,12 +42,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
   return (
     <main style={{ fontFamily: "sans-serif", padding: "2rem" }}>
       <DownloadCard
-        title={title}
-        client={client}
-        date={date}
-        zipUrl={downloadUrl}
-        shareUrl={shareUrl}
-      />
+  title={title}
+  client={client}
+  date={date}
+  filename={match}
+/>
     </main>
   );
 }
