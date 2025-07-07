@@ -2,6 +2,7 @@ import archiver from "archiver";
 import { NextRequest } from "next/server";
 import fs from "fs";
 import path from "path";
+import { PassThrough } from "stream";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -25,27 +26,15 @@ export async function GET(req: NextRequest) {
     return new Response("Geen afbeeldingen gevonden", { status: 404 });
   }
 
-  const { readable, writable } = new TransformStream();
-  const writer = writable.getWriter();
-
+  const zipStream = new PassThrough();
   const archive = archiver("zip", { zlib: { level: 9 } });
 
   archive.on("error", (err) => {
     console.error("Archiver error:", err);
-    writer.abort(err);
+    zipStream.end();
   });
 
-  archive.pipe(new WritableStream({
-    write(chunk) {
-      return writer.write(chunk);
-    },
-    close() {
-      return writer.close();
-    },
-    abort(err) {
-      return writer.abort(err);
-    },
-  }));
+  archive.pipe(zipStream);
 
   for (const file of files) {
     const filePath = path.join(folderPath, file);
@@ -54,7 +43,7 @@ export async function GET(req: NextRequest) {
 
   archive.finalize();
 
-  return new Response(readable, {
+  return new Response(zipStream as any, {
     headers: {
       "Content-Type": "application/zip",
       "Content-Disposition": `attachment; filename="${slug}.zip"`,
