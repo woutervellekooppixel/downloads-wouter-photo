@@ -28,13 +28,14 @@ export default function Page(props: any) {
       >
         <div className="absolute inset-0 bg-black/40" />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
-          <h1 className="text-4xl font-bold mb-4">Download foto’s</h1>
-          <a
-            href={`/api/download-zip?slug=${slug}`}
-            className="bg-white text-black px-6 py-3 rounded shadow hover:bg-gray-100 transition"
-          >
-            Download alles als ZIP
-          </a>
+          <div className="w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center animate-pulse">
+            <a
+              href={`/api/download-zip?slug=${slug}`}
+              className="text-white bg-black/80 px-6 py-3 rounded-full hover:bg-black transition"
+            >
+              Download
+            </a>
+          </div>
           <div className="mt-10 animate-bounce">
             <a href="#gallery" className="text-white text-2xl">↓</a>
             <p className="text-sm mt-1">Klik hier voor alle thumbnails</p>
@@ -44,21 +45,23 @@ export default function Page(props: any) {
 
       {/* Gallery section */}
       <section id="gallery" className="bg-white py-12 px-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {files.map((file) => (
-            <div key={file} className="border rounded overflow-hidden">
+            <div key={file} className="relative group overflow-hidden rounded shadow">
               <img
                 src={`/photos/${slug}/${file}`}
                 alt={file}
-                className="w-full h-auto"
+                className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
               />
-              <a
-                href={`/photos/${slug}/${file}`}
-                download
-                className="block text-center py-2 text-sm bg-black text-white hover:bg-gray-800"
-              >
-                Download
-              </a>
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                <a
+                  href={`/photos/${slug}/${file}`}
+                  download
+                  className="bg-white text-black rounded-full px-4 py-2 text-sm shadow hover:bg-gray-200 transition"
+                >
+                  Download
+                </a>
+              </div>
             </div>
           ))}
         </div>
