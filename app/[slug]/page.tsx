@@ -14,7 +14,13 @@ export async function generateStaticParams() {
     });
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
+type PageProps = {
+  params: {
+    slug: string;
+  };
+};
+
+export default async function Page({ params }: PageProps) {
   const slug = params.slug;
 
   const zipDir = path.join(process.cwd(), "public", "zips");
