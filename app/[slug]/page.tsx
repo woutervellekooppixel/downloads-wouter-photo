@@ -15,13 +15,14 @@ export async function generateStaticParams() {
     });
 }
 
-// ✅ LET OP: GEEN PageProps of extra types
-export default async function Page({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const { slug } = params;
+type PageProps = {
+  params: {
+    slug: string;
+  };
+};
+
+export default async function Page({ params }: PageProps) {
+  const slug = params.slug;
 
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
