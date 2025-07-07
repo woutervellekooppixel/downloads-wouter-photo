@@ -1,16 +1,12 @@
+import type { Metadata, ResolvingMetadata } from "next";
+import { notFound } from "next/navigation";
 import fs from "fs";
 import path from "path";
-import { notFound } from "next/navigation";
-import HeroSection from "../components/HeroSection";
 import Image from "next/image";
+import HeroSection from "../components/HeroSection";
+import type { PageProps } from "next";
 
-interface PageProps {
-  params: {
-    slug: string;
-  };
-}
-
-export default function Page({ params }: PageProps) {
+export default function Page({ params }: PageProps<{ slug: string }>) {
   const slug = params.slug;
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
@@ -60,7 +56,6 @@ export default function Page({ params }: PageProps) {
   );
 }
 
-// ✅ Async versie vereist door Next.js
 export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
   const dirPath = path.join(process.cwd(), "public", "photos");
 
