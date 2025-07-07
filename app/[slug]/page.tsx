@@ -3,17 +3,12 @@ import path from "path";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-type PageParams = {
-  params: {
-    slug: string;
-  };
-};
-
-export async function generateMetadata(
-  props: PageParams
-): Promise<Metadata> {
-
-  const slug = props.params.slug;
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const slug = params.slug;
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
   const match = files.find(
@@ -32,7 +27,11 @@ export async function generateMetadata(
   };
 }
 
-export default function Page({ params }: PageParams) {
+export default function Page({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const slug = params.slug;
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
