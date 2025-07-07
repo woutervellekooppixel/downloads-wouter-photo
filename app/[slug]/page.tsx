@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
@@ -17,7 +14,7 @@ export async function generateStaticParams() {
     });
 }
 
-export default async function Page({ params }: any) {
+export default async function Page({ params }: { params: { slug: string } }) {
   const slug = params.slug;
 
   const zipDir = path.join(process.cwd(), "public", "zips");
@@ -82,15 +79,16 @@ export default async function Page({ params }: any) {
             fontWeight: 600,
             transition: "background 0.3s",
           }}
-          onMouseOver={(e) =>
-            ((e.target as HTMLAnchorElement).style.backgroundColor = "#333")
-          }
-          onMouseOut={(e) =>
-            ((e.target as HTMLAnchorElement).style.backgroundColor = "#000")
-          }
+          onMouseEnter={undefined}
+          onMouseLeave={undefined}
         >
           📥 Download ZIP
         </a>
+        <style>{`
+          a:hover {
+            background-color: #333 !important;
+          }
+        `}</style>
       </div>
     </main>
   );
