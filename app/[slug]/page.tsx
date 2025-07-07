@@ -32,7 +32,7 @@ export async function generateMetadata(
   };
 }
 
-export default function Page({ params }: PageParams["params"]) {
+export default function Page({ params }: PageParams) {
   const slug = params.slug;
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
