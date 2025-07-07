@@ -4,20 +4,12 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { generateMetadata as getMetadata } from "./metadata";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
-  return getMetadata(params.slug);
+export async function generateMetadata(props: any): Promise<Metadata> {
+  return getMetadata(props.params.slug);
 }
 
-export default function Page({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const slug = params.slug;
+export default function Page(props: any) {
+  const slug = props.params.slug;
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
   const match = files.find(
