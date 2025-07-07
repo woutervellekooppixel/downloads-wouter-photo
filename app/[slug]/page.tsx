@@ -1,18 +1,18 @@
-// app/[slug]/page.tsx
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
 import HeroSection from "../components/HeroSection";
 import Image from "next/image";
 
-type PageProps = {
+type Props = {
   params: {
     slug: string;
   };
 };
 
-export default function Page({ params }: PageProps) {
+export default function Page({ params }: Props) {
   const { slug } = params;
+
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
   if (!fs.existsSync(folderPath)) {
