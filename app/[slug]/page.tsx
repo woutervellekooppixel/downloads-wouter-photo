@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
+import type { PageProps } from "next"; // ✅ juiste type importeren
 
 export async function generateStaticParams() {
   const zipDir = path.join(process.cwd(), "public", "zips");
@@ -14,7 +15,7 @@ export async function generateStaticParams() {
     });
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({ params }: PageProps) {
   const slug = params.slug;
 
   const zipDir = path.join(process.cwd(), "public", "zips");
@@ -79,8 +80,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
             fontWeight: 600,
             transition: "background 0.3s",
           }}
-          onMouseEnter={undefined}
-          onMouseLeave={undefined}
         >
           📥 Download ZIP
         </a>
