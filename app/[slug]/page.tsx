@@ -14,8 +14,12 @@ export async function generateStaticParams() {
     });
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  const slug = params.slug;
+export default async function Page({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const { slug } = params;
 
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
@@ -42,7 +46,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
         minHeight: "100vh",
         backgroundColor: "#f6f6f6",
         display: "flex",
-        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         padding: "2rem",
@@ -82,11 +85,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
         >
           📥 Download ZIP
         </a>
-        <style>{`
-          a:hover {
-            background-color: #333 !important;
-          }
-        `}</style>
       </div>
     </main>
   );
