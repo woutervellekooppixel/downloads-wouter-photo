@@ -3,7 +3,7 @@ import path from "path";
 import { notFound } from "next/navigation";
 import { DownloadCard } from "../components/DownloadCard";
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
 
@@ -15,12 +15,9 @@ export async function generateStaticParams() {
     });
 }
 
-interface PageProps {
-  params: { slug: string };
-}
-
-export default async function Page(props: PageProps) {
-  const slug = props.params.slug;
+// ❗Gebruik geen externe interface — Next 15+ heeft hier soms moeite mee op Vercel
+export default async function Page({ params }: { params: { slug: string } }) {
+  const slug = params.slug;
 
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
