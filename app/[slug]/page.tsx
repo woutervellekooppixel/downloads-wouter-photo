@@ -28,7 +28,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     .filter((file) => /\.(jpe?g|png|webp)$/i.test(file));
 
   if (files.length === 0) {
-    return <p style={{ padding: "2rem" }}>Geen foto's gevonden voor {slug}.</p>;
+    return <p style={{ padding: "2rem" }}>Geen foto&apos;s gevonden voor {slug}.</p>;
   }
 
   return (
@@ -54,7 +54,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         }}
       >
         <h1 style={{ fontSize: "2rem", marginBottom: "1rem", textAlign: "center" }}>
-          📸 Download jouw foto's
+        Download jouw foto&apos;s
         </h1>
 
         <div

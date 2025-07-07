@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
 
   archive.finalize();
 
-  return new Response(stream as any, {
+  return new Response(stream as unknown as BodyInit, {
     headers: {
       "Content-Type": "application/zip",
       "Content-Disposition": `attachment; filename="${slug}.zip"`,
