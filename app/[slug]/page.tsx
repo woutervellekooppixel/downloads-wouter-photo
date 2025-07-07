@@ -2,29 +2,14 @@ import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { generateMetadata as getMetadata } from "./metadata";
 
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const slug = params.slug;
-  const zipDir = path.join(process.cwd(), "public", "zips");
-  const files = fs.readdirSync(zipDir);
-  const match = files.find(
-    (file) => file.startsWith(`${slug}__`) && file.endsWith(".zip")
-  );
-
-  if (!match) {
-    return { title: "Bestand niet gevonden" };
-  }
-
-  const [, title, client, date] = match.replace(".zip", "").split("__");
-
-  return {
-    title: `${title} – ${client}`,
-    description: `Download foto's gemaakt op ${date} voor ${client}`,
-  };
+  return getMetadata(params.slug);
 }
 
 export default function Page({
