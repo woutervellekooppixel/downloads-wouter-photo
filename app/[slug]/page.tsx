@@ -10,7 +10,11 @@ type Props = {
   };
 };
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const slug = params.slug;
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
@@ -29,6 +33,7 @@ export async function generateMetadata({ params }: Props) {
     description: `Download foto's gemaakt op ${date} voor ${client}`,
   };
 }
+
 
 export default function Page({ params }: Props) {
   const slug = params.slug;
