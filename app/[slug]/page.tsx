@@ -1,16 +1,18 @@
+// app/[slug]/page.tsx
+
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
 import HeroSection from "../components/HeroSection";
 import Image from "next/image";
 
-type Params = {
+type Props = {
   params: {
     slug: string;
   };
 };
 
-export default function Page({ params }: Params) {
+export default function Page({ params }: Props) {
   const slug = params.slug;
 
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
@@ -37,15 +39,13 @@ export default function Page({ params }: Params) {
               key={file}
               className="relative group overflow-hidden rounded shadow"
             >
-              
-
-<Image
-  src={`/photos/${slug}/${file}`}
-  alt={file}
-  width={800}
-  height={600}
-  className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
-/>
+              <Image
+                src={`/photos/${slug}/${file}`}
+                alt={file}
+                width={800}
+                height={600}
+                className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
+              />
 
               <div className="absolute inset-0 bg-black/40 opacity-80 sm:opacity-0 sm:group-hover:opacity-80 transition duration-300 flex items-center justify-center">
                 <a
