@@ -2,9 +2,7 @@
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
-import dynamic from "next/dynamic";
-
-const LogoTilt = dynamic(() => import("../../components/LogoTilt"), { ssr: false });
+import HeroSection from "../components/HeroSection";
 
 export default function Page(props: any) {
   const slug = props.params.slug;
@@ -24,20 +22,7 @@ export default function Page(props: any) {
 
   return (
     <div className="min-h-screen">
-      {/* Hero section */}
-      <section
-        className="h-screen bg-cover bg-center relative"
-        style={{ backgroundImage: `url('/background.jpg')` }}
-      >
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
-          <LogoTilt slug={slug} />
-          <div className="mt-16 flex flex-col items-center animate-bounce">
-            <a href="#gallery" className="text-white text-4xl">↓</a>
-            <p className="text-sm mt-2">Klik hier voor alle thumbnails</p>
-          </div>
-        </div>
-      </section>
+      <HeroSection slug={slug} />
 
       {/* Gallery section */}
       <section id="gallery" className="bg-white py-12 px-4">
