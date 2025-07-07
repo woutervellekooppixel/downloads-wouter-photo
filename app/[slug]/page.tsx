@@ -9,7 +9,7 @@ export default function Page({ params }: { params: { slug: string } }) {
 
   if (!matchingZip) return notFound();
 
-  const [_, title, client, dateWithExt] = matchingZip.split("__");
+const [, title, client, dateWithExt] = matchingZip.split("__");
   const date = dateWithExt.replace(".zip", "");
 
   return (
