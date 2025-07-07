@@ -15,8 +15,12 @@ export function generateStaticParams() {
     });
 }
 
-// ❗Gebruik geen externe interface — Next 15+ heeft hier soms moeite mee op Vercel
-export default async function Page({ params }: { params: { slug: string } }) {
+// ✅ Gebruik inline type zonder imports
+export default async function Page({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const slug = params.slug;
 
   const zipDir = path.join(process.cwd(), "public", "zips");
