@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
 import HeroSection from "../components/HeroSection";
+import Image from "next/image";
 
 type Params = {
   params: {
@@ -36,11 +37,16 @@ export default function Page({ params }: Params) {
               key={file}
               className="relative group overflow-hidden rounded shadow"
             >
-              <img
-                src={`/photos/${slug}/${file}`}
-                alt={file}
-                className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
-              />
+              
+
+<Image
+  src={`/photos/${slug}/${file}`}
+  alt={file}
+  width={800}
+  height={600}
+  className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
+/>
+
               <div className="absolute inset-0 bg-black/40 opacity-80 sm:opacity-0 sm:group-hover:opacity-80 transition duration-300 flex items-center justify-center">
                 <a
                   href={`/photos/${slug}/${file}`}
