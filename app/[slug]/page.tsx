@@ -3,9 +3,16 @@ import path from 'path';
 import { notFound } from 'next/navigation';
 import HeroSection from '../components/HeroSection';
 import Image from 'next/image';
+import type { Metadata } from 'next';
 
-export default function Page(props: { params: { slug: string } }) {
-  const slug = props.params.slug;
+type PageProps = {
+  params: {
+    slug: string;
+  };
+};
+
+export default function Page({ params }: PageProps) {
+  const slug = params.slug;
   const folderPath = path.join(process.cwd(), 'public', 'photos', slug);
 
   if (!fs.existsSync(folderPath)) {
