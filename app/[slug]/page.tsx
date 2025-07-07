@@ -14,7 +14,6 @@ type Props = {
 
 export default function Page({ params }: Props) {
   const slug = params.slug;
-
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
   if (!fs.existsSync(folderPath)) {
@@ -46,7 +45,6 @@ export default function Page({ params }: Props) {
                 height={600}
                 className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
               />
-
               <div className="absolute inset-0 bg-black/40 opacity-80 sm:opacity-0 sm:group-hover:opacity-80 transition duration-300 flex items-center justify-center">
                 <a
                   href={`/photos/${slug}/${file}`}
