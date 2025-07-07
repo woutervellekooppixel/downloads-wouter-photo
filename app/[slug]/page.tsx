@@ -60,7 +60,7 @@ export default function Page({ params }: PageProps) {
   );
 }
 
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const dirPath = path.join(process.cwd(), "public", "photos");
 
   if (!fs.existsSync(dirPath)) return [];
