@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getMetadata } from "./metadata";
+import { generateMetadata as getMetadata } from "./metadata";
 
 export async function generateMetadata({
   params,

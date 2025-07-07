@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import type { Metadata } from "next";
 
-export async function getMetadata(slug: string): Promise<Metadata> {
+export async function generateMetadata(slug: string): Promise<Metadata> {
   const zipDir = path.join(process.cwd(), "public", "zips");
   const files = fs.readdirSync(zipDir);
   const match = files.find(
