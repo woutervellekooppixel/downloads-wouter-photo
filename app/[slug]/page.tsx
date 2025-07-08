@@ -42,6 +42,9 @@ export default function Page(props: any) {
             <p className="text-sm mt-2">Klik hier voor alle thumbnails</p>
           </div>
         </div>
+        <div className="absolute bottom-4 right-4 text-xs sm:text-sm text-gray-600">
+    Lionel Richie photographed by Wouter Vellekoop
+  </div>
       </section>
 
       {/* Gallery section */}
