@@ -37,9 +37,9 @@ export default function Page(props: any) {
   href={`/api/download-zip?slug=${slug}`}
   className="group relative w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center overflow-hidden transition-transform hover:scale-105"
 >
-  <div className="absolute inset-0 border-4 border-white rounded-full animate-spin-slow group-hover:brightness-110" />
+  <div className="absolute inset-0 rounded-full animate-spin-slow group-hover:brightness-110" />
   <svg
-    className="relative z-10 w-12 h-12 text-white"
+    className="relative z-10 w-20 h-20 text-white"
     fill="none"
     stroke="currentColor"
     strokeWidth={2.5}
@@ -48,13 +48,6 @@ export default function Page(props: any) {
     <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12v6m0 0l-3-3m3 3l3-3m0-10H9" />
   </svg>
 </a>
-
-    {/* Scroll-down prompt */}
-    <div className="mt-16 flex flex-col items-center animate-bounce">
-      <a href="#gallery" className="text-white text-4xl">↓</a>
-      <p className="text-sm mt-2">Klik hier voor alle thumbnails</p>
-    </div>
-  </div>
 
   {/* Fotocredit */}
   <div className="absolute bottom-4 right-4 text-xs sm:text-sm text-white opacity-80">
