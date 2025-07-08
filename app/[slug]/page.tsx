@@ -22,27 +22,23 @@ export default function Page(props: any) {
   return (
     <div className="min-h-screen">
       {/* Hero section */}
-      <section
-        className="h-screen bg-cover bg-center relative"
-        style={{ backgroundImage: `url('/background.jpg')` }}
-      >
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
-          <div className="relative w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center overflow-hidden">
-            <div className="absolute inset-0 border-4 border-white rounded-full animate-spin-slow" />
-            <a
-              href={`/api/download-zip?slug=${slug}`}
-              className="relative z-10 text-white px-6 py-3 rounded-full transition"
-            >
-              Download
-            </a>
-          </div>
-          <div className="mt-16 flex flex-col items-center animate-bounce">
-            <a href="#gallery" className="text-white text-4xl">↓</a>
-            <p className="text-sm mt-2">Klik hier voor alle thumbnails</p>
-          </div>
-        </div>
-      </section>
+      {/* Download blok in het midden */}
+<section className="bg-white py-24 px-4 relative">
+  <div className="max-w-md mx-auto bg-gray-100 rounded-2xl shadow-lg p-8 text-center">
+    <h1 className="text-2xl font-semibold mb-6">Download je foto's</h1>
+    <a
+      href={`/api/download-zip?slug=${slug}`}
+      className="bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition"
+    >
+      Download ZIP
+    </a>
+  </div>
+
+  {/* Caption rechtsonder */}
+  <div className="absolute bottom-4 right-4 text-xs sm:text-sm text-gray-600">
+    Lionel Richie photographed by Wouter Vellekoop
+  </div>
+</section>
 
       {/* Gallery section */}
       <section id="gallery" className="bg-white py-12 px-4">
