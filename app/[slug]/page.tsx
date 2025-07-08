@@ -22,14 +22,12 @@ export function generateMetadata({
   };
 }
 
-// ✅ Page component — niet async, correcte types
-type PageProps = {
-  params: {
-    slug: string;
-  };
-};
-
-export default function Page({ params }: PageProps) {
+// ✅ Page component — geen async, geen custom types
+export default function Page({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const slug = params.slug;
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
