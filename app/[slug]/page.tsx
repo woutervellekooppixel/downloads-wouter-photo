@@ -1,15 +1,16 @@
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
+import Image from "next/image";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
 
-export function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Metadata {
+// ✅ Metadata functie met correcte types
+export async function generateMetadata(
+  { params }: { params: { slug: string } },
+  _parent: ResolvingMetadata
+): Promise<Metadata> {
   const formattedSlug = params.slug
     .replace(/-/g, " ")
     .replace(/\b\w/g, (c: string) => c.toUpperCase());
@@ -20,11 +21,8 @@ export function generateMetadata({
   };
 }
 
-export default function Page({
-  params,
-}: {
-  params: { slug: string };
-}) {
+// ✅ Page component met correcte types
+export default function Page({ params }: { params: { slug: string } }) {
   const slug = params.slug;
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
@@ -61,9 +59,11 @@ export default function Page({
         <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {files.map((file) => (
             <div key={file} className="relative group overflow-hidden rounded shadow">
-              <img
+              <Image
                 src={`/photos/${slug}/${file}`}
                 alt={file}
+                width={800}
+                height={600}
                 className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
