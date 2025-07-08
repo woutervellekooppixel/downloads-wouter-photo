@@ -1,28 +1,23 @@
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
-import type { Metadata, ResolvingMetadata } from "next";
 
-// ✅ Type voor params
 type PageProps = {
   params: {
     slug: string;
   };
 };
 
-// ✅ Metadata functie met correcte Promise typing
-export async function generateMetadata(
-  { params }: PageProps,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export function generateMetadata({ params }: PageProps): Metadata {
   const formattedSlug = params.slug
     .replace(/-/g, " ")
     .replace(/\b\w/g, (c) => c.toUpperCase());
 
   return {
-    title: `downloads.wouter.photo | ${formattedSlug}`,
+    title: `Downloads Wouter.Photo | ${formattedSlug}`,
     description: `Download alle foto's van ${formattedSlug}`,
   };
 }
@@ -35,9 +30,9 @@ export default function Page({ params }: PageProps) {
     notFound();
   }
 
-  const files = fs
-    .readdirSync(folderPath)
-    .filter((file) => /\.(jpe?g|png|webp)$/i.test(file));
+  const files = fs.readdirSync(folderPath).filter((file) =>
+    /\.(jpe?g|png|webp)$/i.test(file)
+  );
 
   if (files.length === 0) {
     notFound();
@@ -52,11 +47,9 @@ export default function Page({ params }: PageProps) {
         style={{ backgroundImage: `url('/background.jpg')` }}
       >
         <div className="absolute inset-0 bg-black/40" />
-
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
           <DownloadButton slug={slug} />
         </div>
-
         <div className="absolute bottom-4 right-4 text-xs sm:text-sm text-white opacity-80 z-20">
           Lionel Richie photographed by Wouter Vellekoop
         </div>
