@@ -5,11 +5,11 @@ import type { Metadata } from "next";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
 
-type PageProps = {
+export function generateMetadata({
+  params,
+}: {
   params: { slug: string };
-};
-
-export function generateMetadata({ params }: PageProps): Metadata {
+}): Metadata {
   const formattedSlug = params.slug
     .replace(/-/g, " ")
     .replace(/\b\w/g, (c: string) => c.toUpperCase());
@@ -20,7 +20,11 @@ export function generateMetadata({ params }: PageProps): Metadata {
   };
 }
 
-export default function Page({ params }: PageProps) {
+export default function Page({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const slug = params.slug;
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
