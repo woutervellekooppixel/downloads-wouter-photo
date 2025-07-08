@@ -1,16 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
-
-import type { Metadata, ResolvingMetadata } from "next";
-
-type Props = {
-  params: { slug: string };
-};
 
 export function generateMetadata(
   { params }: { params: { slug: string } }
@@ -25,7 +18,6 @@ export function generateMetadata(
   };
 }
 
-// ✅ Gebruik inline type in de default export
 export default function Page({
   params,
 }: {
