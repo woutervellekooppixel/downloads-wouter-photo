@@ -34,14 +34,20 @@ export default function Page(props: any) {
     
     {/* Klikbaar download-rondje */}
     <a
-      href={`/api/download-zip?slug=${slug}`}
-      className="group relative w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center overflow-hidden transition-transform hover:scale-105"
-    >
-      <div className="absolute inset-0 border-4 border-white rounded-full animate-spin-slow group-hover:brightness-110" />
-      <span className="relative z-10 text-white px-6 py-3 rounded-full">
-        Download
-      </span>
-    </a>
+  href={`/api/download-zip?slug=${slug}`}
+  className="group relative w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center overflow-hidden transition-transform hover:scale-105"
+>
+  <div className="absolute inset-0 border-4 border-white rounded-full animate-spin-slow group-hover:brightness-110" />
+  <svg
+    className="relative z-10 w-8 h-8 text-white"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    viewBox="0 0 24 24"
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12v6m0 0l-3-3m3 3l3-3m0-6V4m-6 4h6" />
+  </svg>
+</a>
 
     {/* Scroll-down prompt */}
     <div className="mt-16 flex flex-col items-center animate-bounce">
