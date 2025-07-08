@@ -6,7 +6,16 @@ import { Metadata } from "next";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
+import type { Metadata, ResolvingMetadata } from "next";
+
+type Props = {
+  params: { slug: string };
+};
+
+export function generateMetadata(
+  { params }: Props,
+  _parent?: ResolvingMetadata
+): Metadata {
   const formattedSlug = params.slug
     .replace(/-/g, " ")
     .replace(/\b\w/g, (c: string) => c.toUpperCase());
