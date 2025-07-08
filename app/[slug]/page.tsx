@@ -1,24 +1,10 @@
 import fs from "fs/promises";
 import path from "path";
 import { notFound } from "next/navigation";
-import type { Metadata } from "next";
 import Image from "next/image";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
 
-// ✅ Async metadata functie
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const formattedSlug = params.slug
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (c: string) => c.toUpperCase());
-
-  return {
-    title: `Downloads Wouter.Photo | ${formattedSlug}`,
-    description: `Download alle foto's van ${formattedSlug}`,
-  };
-}
-
-// ✅ Async page functie
 export default async function Page({ params }: { params: { slug: string } }) {
   const slug = params.slug;
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
@@ -35,7 +21,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
     return (
       <div className="min-h-screen">
         <Header />
-
         <section
           className="relative h-screen bg-cover bg-center"
           style={{ backgroundImage: `url('/background.jpg')` }}
@@ -44,11 +29,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
           <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
             <DownloadButton slug={slug} />
           </div>
-          <div className="absolute bottom-4 right-4 text-xs sm:text-sm text-white opacity-80 z-20">
-            Lionel Richie photographed by Wouter Vellekoop
-          </div>
         </section>
-
         <section id="gallery" className="bg-white py-12 px-4">
           <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {files.map((file) => (
