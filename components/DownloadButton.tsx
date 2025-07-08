@@ -35,7 +35,7 @@ export default function DownloadButton({ slug }: { slug: string }) {
         id="tooltip"
       >
         Download {slug}.zip
-        <div className="absolute bottom-[-6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-white rotate-45 shadow -z-10" />
+        <div className="absolute bottom-[-6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-white/80 rotate-45 shadow -z-10" />
       </div>
 
       {/* Knop zelf */}
