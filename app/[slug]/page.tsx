@@ -1,18 +1,21 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import Header from '../../components/Header';
 import DownloadButton from '../../components/DownloadButton';
 
-type PageProps = {
+type Props = {
   params: {
     slug: string;
   };
 };
 
-export function generateMetadata({ params }: PageProps) {
-  const formattedSlug = params.slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+// ✅ SEO title instellen per slug
+export function generateMetadata({ params }: Props): Metadata {
+  const formattedSlug = params.slug
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase());
 
   return {
     title: `downloads.wouter.photo | ${formattedSlug}`,
@@ -20,7 +23,8 @@ export function generateMetadata({ params }: PageProps) {
   };
 }
 
-export default function Page({ params }: PageProps) {
+// ✅ Page function, getypte params via App Router
+export default function Page({ params }: Props) {
   const slug = params.slug;
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
