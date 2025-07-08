@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
 import Header from '../../components/Header';
-import DownloadButton from '../../components/DownloadButton'
+import DownloadButton from '../../components/DownloadButton';
 
 export default function Page(props: any) {
   const slug = props.params.slug;
@@ -23,35 +23,28 @@ export default function Page(props: any) {
 
   return (
     <div className="min-h-screen">
-      <Header /> {/* ✅ Zet hier de header */}
+      <Header />
 
-      {/* Hero section */}
       <section
         className="relative h-screen bg-cover bg-center"
         style={{ backgroundImage: `url('/background.jpg')` }}
       >
-        {/* Donkere overlay */}
         <div className="absolute inset-0 bg-black/40" />
 
-        {/* Inhoud */}
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
-          {/* Grote downloadknop */}
-<DownloadButton slug={slug} />
+          <DownloadButton slug={slug} />
 
-          {/* Scroll prompt */}
           <div className="mt-16 flex flex-col items-center animate-bounce">
             <a href="#gallery" className="text-white text-4xl">↓</a>
             <p className="text-sm mt-2 text-white/70">Bekijk losse fotos</p>
           </div>
         </div>
 
-        {/* Fotocredit */}
-        <div className="absolute bottom-4 right-4 text-xs sm:text-sm text-white opacity-80">
+        <div className="absolute bottom-4 right-4 text-xs sm:text-sm text-white opacity-80 z-20">
           Lionel Richie photographed by Wouter Vellekoop
         </div>
       </section>
 
-      {/* Gallery sectie */}
       <section id="gallery" className="bg-white py-12 px-4">
         <p className="text-center text-gray-600 text-sm mb-6">
           Of download losse fotos hieronder ⬇
