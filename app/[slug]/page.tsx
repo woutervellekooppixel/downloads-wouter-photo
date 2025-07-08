@@ -1,17 +1,16 @@
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
-import type { Metadata } from "next";
+import { Metadata } from "next";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
 
-type PageProps = {
-  params: {
-    slug: string;
-  };
-};
-
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+// ✅ Gebruik inline type in plaats van PageProps
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
   const formattedSlug = params.slug
     .replace(/-/g, " ")
     .replace(/\b\w/g, (c) => c.toUpperCase());
@@ -22,7 +21,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default function Page({ params }: PageProps) {
+// ✅ Gebruik inline type in de default export
+export default function Page({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const slug = params.slug;
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
