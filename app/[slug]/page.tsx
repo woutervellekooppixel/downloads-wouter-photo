@@ -6,11 +6,12 @@ import Image from "next/image";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
 
-// ✅ Metadata functie met correcte types
-export async function generateMetadata(
-  { params }: { params: { slug: string } }
-): Promise<Metadata> {
-
+// ✅ Metadata functie
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
   const formattedSlug = params.slug
     .replace(/-/g, " ")
     .replace(/\b\w/g, (c: string) => c.toUpperCase());
@@ -21,8 +22,14 @@ export async function generateMetadata(
   };
 }
 
-// ✅ Page component met correcte types
-export default function Page({ params }: { params: { slug: string } }) {
+// ✅ Page component
+interface PageProps {
+  params: {
+    slug: string;
+  };
+}
+
+export default function Page({ params }: PageProps) {
   const slug = params.slug;
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
