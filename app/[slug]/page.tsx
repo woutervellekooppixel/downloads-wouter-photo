@@ -1,37 +1,42 @@
-import fs from "fs/promises";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+'use client';
+
+import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
-import type { Metadata } from "next";
+import { useEffect, useState } from "react";
 
-type PageProps = {
-  params: {
-    slug: string;
-  };
-};
-
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  return {
-    title: `${params.slug} – downloads by Wouter Vellekoop`,
-  };
-}
-
-export default async function Page({ params }: PageProps) {
-  const slug = params.slug;
+export default function Page(props: any) {
+  const slug = props.params.slug;
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
-  try {
-    await fs.access(folderPath);
-  } catch {
+  if (!fs.existsSync(folderPath)) {
     notFound();
   }
 
-  const files = (await fs.readdir(folderPath)).filter((file) =>
+  const files = fs.readdirSync(folderPath).filter((file) =>
     /\.(jpe?g|png|webp)$/i.test(file)
   );
 
   if (files.length === 0) {
     notFound();
   }
+
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          return 100;
+        }
+        return prev + 1;
+      });
+    }, 20); // Duur: ~2 seconden
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="min-h-screen">
@@ -41,14 +46,37 @@ export default async function Page({ params }: PageProps) {
         style={{ backgroundImage: `url('/background.jpg')` }}
       >
         <div className="absolute inset-0 bg-black/40" />
+
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
-          {/* Animated Border with Counter */}
-          <div className="relative w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center overflow-hidden">
-            <div className="absolute inset-0 rounded-full border-[6px] border-white animate-spin-slow" />
-            <div className="absolute text-lg font-semibold animate-count">100%</div>
+          <div className="relative w-40 h-40">
+            <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+              <circle
+                cx="50"
+                cy="50"
+                r="45"
+                stroke="white"
+                strokeOpacity="0.3"
+                strokeWidth="6"
+                fill="none"
+              />
+              <circle
+                cx="50"
+                cy="50"
+                r="45"
+                stroke="white"
+                strokeWidth="6"
+                fill="none"
+                strokeDasharray="282.6"
+                strokeDashoffset={282.6 - (progress / 100) * 282.6}
+                className="transition-all duration-300 ease-out"
+              />
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center text-white text-xl font-semibold">
+              {progress}%
+            </div>
             <a
               href={`/api/download-zip?slug=${slug}`}
-              className="absolute z-10 inset-0 flex items-center justify-center text-white px-10 py-3 rounded-full transition"
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 mt-2 text-white bg-black/70 px-4 py-1 rounded-full text-sm"
             >
               Download
             </a>
@@ -60,7 +88,7 @@ export default async function Page({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Onderschrift rechtsonder */}
+        {/* Onderschrift */}
         <div className="absolute bottom-4 right-4 text-xs sm:text-sm text-white">
           Lionel Richie photographed by Wouter Vellekoop
         </div>
@@ -89,36 +117,6 @@ export default async function Page({ params }: PageProps) {
           ))}
         </div>
       </section>
-
-      {/* Extra styling for counter animation */}
-      <style jsx>{`
-        @keyframes countUp {
-          0% {
-            content: "0%";
-          }
-          100% {
-            content: "100%";
-          }
-        }
-
-        .animate-count::before {
-          content: "100%";
-          animation: countUp 2s ease-out forwards;
-        }
-
-        .animate-spin-slow {
-          animation: spin 10s linear infinite;
-        }
-
-        @keyframes spin {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-      `}</style>
     </div>
   );
 }
