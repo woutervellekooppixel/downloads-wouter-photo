@@ -1,8 +1,11 @@
 'use client'
-import Link from 'next/link'
+
 import { usePathname } from 'next/navigation'
 import { FaInstagram, FaLinkedin, FaEnvelope } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
+import MobileMenu from './MobileMenu'
+import { ShoppingCart } from 'lucide-react'
+import { useCartStore } from '../stores/cartStore'
 import type { HTMLAttributes } from 'react'
 
 const MotionSpan = motion(function MotionSpanBase({
@@ -15,15 +18,17 @@ const MotionSpan = motion(function MotionSpanBase({
 
 export default function Header() {
   const pathname = usePathname()
+  const { toggleCart, cart } = useCartStore()
+  const itemCount = cart.length
 
   let suffix = 'PHOTO'
-  if (pathname.includes('concert')) suffix = 'CONCERTS'
-  else if (pathname.includes('event')) suffix = 'EVENTS'
-  else if (pathname.includes('misc')) suffix = 'MISC'
+  if (pathname.startsWith('/portfolio/concerts')) suffix = 'CONCERTS'
+  else if (pathname.startsWith('/portfolio/events')) suffix = 'EVENTS'
+  else if (pathname.startsWith('/portfolio/misc')) suffix = 'MISC'
 
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-white">
-      <a href="https://www.wouter.photo" className="text-xl tracking-tight text-black flex items-baseline gap-1">
+      <a href="/portfolio" className="text-xl tracking-tight text-black flex items-baseline gap-1">
         <span className="font-extrabold">WOUTER</span>
         <AnimatePresence mode="wait">
           <MotionSpan
@@ -52,13 +57,27 @@ export default function Header() {
         </div>
 
         <a href="https://www.wouter.photo/about" className="hover:text-gray-600">About</a>
+
         <a href="https://instagram.com/woutervellekoop" target="_blank" className="hover:text-gray-600"><FaInstagram size={16} /></a>
         <a href="https://linkedin.com/in/woutervellekoop" target="_blank" className="hover:text-gray-600"><FaLinkedin size={16} /></a>
         <a href="mailto:hello@wouter.photo" className="hover:text-gray-600"><FaEnvelope size={16} /></a>
+
+        {/* 🛒 Winkelwagen */}
+        {/* 
+        <button onClick={() => toggleCart(true)} className="relative hover:text-gray-600">
+          <ShoppingCart size={18} />
+          {itemCount > 0 && (
+            <span className="absolute -top-1 -right-2 bg-black text-white text-xs px-1 rounded-full">
+              {itemCount}
+            </span>
+          )}
+        </button>
+        */}
       </nav>
 
-      {/* Mobiele versie — optioneel toevoegen later */}
-      {/* <div className="sm:hidden"><MobileMenu /></div> */}
+      <div className="sm:hidden">
+        <MobileMenu />
+      </div>
     </header>
   )
 }
