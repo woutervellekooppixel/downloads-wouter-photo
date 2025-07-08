@@ -5,15 +5,10 @@ import { Metadata } from "next";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
 
-// ✅ Gebruik inline type in plaats van PageProps
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: any): Promise<Metadata> {
   const formattedSlug = params.slug
     .replace(/-/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+    .replace(/\b\w/g, (c: string) => c.toUpperCase());
 
   return {
     title: `Downloads Wouter.Photo | ${formattedSlug}`,
