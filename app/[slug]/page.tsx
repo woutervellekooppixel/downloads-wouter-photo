@@ -1,20 +1,24 @@
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
-import type { Metadata } from "next";
-import Header from '../../components/Header';
-import DownloadButton from '../../components/DownloadButton';
+import Header from "../../components/Header";
+import DownloadButton from "../../components/DownloadButton";
+import type { Metadata, ResolvingMetadata } from "next";
 
-type Props = {
+// ✅ Type voor params
+type PageProps = {
   params: {
     slug: string;
   };
 };
 
-// ✅ SEO title instellen per slug
-export function generateMetadata({ params }: Props): Metadata {
+// ✅ Metadata functie met correcte Promise typing
+export async function generateMetadata(
+  { params }: PageProps,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
   const formattedSlug = params.slug
-    .replace(/-/g, ' ')
+    .replace(/-/g, " ")
     .replace(/\b\w/g, (c) => c.toUpperCase());
 
   return {
@@ -23,8 +27,7 @@ export function generateMetadata({ params }: Props): Metadata {
   };
 }
 
-// ✅ Page function, getypte params via App Router
-export default function Page({ params }: Props) {
+export default function Page({ params }: PageProps) {
   const slug = params.slug;
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
@@ -32,9 +35,9 @@ export default function Page({ params }: Props) {
     notFound();
   }
 
-  const files = fs.readdirSync(folderPath).filter((file) =>
-    /\.(jpe?g|png|webp)$/i.test(file)
-  );
+  const files = fs
+    .readdirSync(folderPath)
+    .filter((file) => /\.(jpe?g|png|webp)$/i.test(file));
 
   if (files.length === 0) {
     notFound();
