@@ -6,12 +6,12 @@ import Image from "next/image";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
 
-// ✅ Metadata functie
-export async function generateMetadata({
+// ✅ Metadata functie — niet async
+export function generateMetadata({
   params,
 }: {
   params: { slug: string };
-}): Promise<Metadata> {
+}): Metadata {
   const formattedSlug = params.slug
     .replace(/-/g, " ")
     .replace(/\b\w/g, (c: string) => c.toUpperCase());
@@ -22,12 +22,12 @@ export async function generateMetadata({
   };
 }
 
-// ✅ Page component
-interface PageProps {
+// ✅ Page component — niet async, correcte types
+type PageProps = {
   params: {
     slug: string;
   };
-}
+};
 
 export default function Page({ params }: PageProps) {
   const slug = params.slug;
