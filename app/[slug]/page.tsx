@@ -53,12 +53,12 @@ export default function Page(props: any) {
           </a>
 
           {/* Toelichting ZIP-download */}
-          <p className="mt-4 text-sm text-white/80">Download alle foto's in één ZIP-bestand</p>
+          <p className="mt-4 text-sm text-white/80">Download alle fotos in één ZIP-bestand</p>
 
           {/* Scroll prompt */}
           <div className="mt-16 flex flex-col items-center animate-bounce">
             <a href="#gallery" className="text-white text-4xl">↓</a>
-            <p className="text-sm mt-2 text-white/70">Bekijk losse foto's</p>
+            <p className="text-sm mt-2 text-white/70">Bekijk losse fotos</p>
           </div>
         </div>
 
@@ -72,7 +72,7 @@ export default function Page(props: any) {
       <section id="gallery" className="bg-white py-12 px-4">
         {/* Introtekst */}
         <p className="text-center text-gray-600 text-sm mb-6">
-          Of download losse foto's hieronder ⬇
+          Of download losse fotos hieronder ⬇
         </p>
 
         {/* Afbeeldingen */}
