@@ -33,19 +33,19 @@ export default function Page(props: any) {
   <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
     
     {/* Klikbaar download-rondje */}
-    <a
+<a
   href={`/api/download-zip?slug=${slug}`}
   className="group relative w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center overflow-hidden transition-transform hover:scale-105"
 >
   <div className="absolute inset-0 border-4 border-white rounded-full animate-spin-slow group-hover:brightness-110" />
   <svg
-    className="relative z-10 w-8 h-8 text-white"
+    className="relative z-10 w-12 h-12 text-white"
     fill="none"
     stroke="currentColor"
-    strokeWidth={2}
+    strokeWidth={2.5}
     viewBox="0 0 24 24"
   >
-    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12v6m0 0l-3-3m3 3l3-3m0-6V4m-6 4h6" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12v6m0 0l-3-3m3 3l3-3m0-10H9" />
   </svg>
 </a>
 
