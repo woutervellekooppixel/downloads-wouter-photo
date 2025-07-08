@@ -1,4 +1,4 @@
-import { getFilesFromSlug } from "@/lib/getFilesFromSlug";
+import { getFilesFromSlug } from "../../lib/getFilesFromSlug";
 import Image from "next/image";
 
 type PageProps = {
