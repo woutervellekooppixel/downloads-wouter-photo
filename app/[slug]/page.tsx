@@ -8,9 +8,9 @@ import DownloadButton from "../../components/DownloadButton";
 
 // ✅ Metadata functie met correcte types
 export async function generateMetadata(
-  { params }: { params: { slug: string } },
-  _parent: ResolvingMetadata
+  { params }: { params: { slug: string } }
 ): Promise<Metadata> {
+
   const formattedSlug = params.slug
     .replace(/-/g, " ")
     .replace(/\b\w/g, (c: string) => c.toUpperCase());
