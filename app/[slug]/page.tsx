@@ -6,12 +6,12 @@ import Image from "next/image";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
 
-// ✅ Metadata functie
-export function generateMetadata({
+// ✅ Metadata functie moet async zijn
+export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
-}): Metadata {
+}): Promise<Metadata> {
   const formattedSlug = params.slug
     .replace(/-/g, " ")
     .replace(/\b\w/g, (c: string) => c.toUpperCase());
@@ -22,7 +22,7 @@ export function generateMetadata({
   };
 }
 
-// ✅ Page functie moet async zijn in Next.js 15
+// ✅ Page functie is async
 export default async function Page({
   params,
 }: {
