@@ -1,16 +1,16 @@
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
 
-export function getPhotos(slug: string): string[] | null {
+export async function getPhotos(slug: string): Promise<string[] | null> {
   const folderPath = path.join(process.cwd(), 'public', 'photos', slug);
 
-  if (!fs.existsSync(folderPath)) {
+  try {
+    const files = await fs.readdir(folderPath);
+    const imageFiles = files.filter((file) =>
+      /\.(jpe?g|png|webp)$/i.test(file)
+    );
+    return imageFiles.length > 0 ? imageFiles : null;
+  } catch (error) {
     return null;
   }
-
-  const files = fs.readdirSync(folderPath).filter((file) =>
-    /\.(jpe?g|png|webp)$/i.test(file)
-  );
-
-  return files.length > 0 ? files : null;
 }

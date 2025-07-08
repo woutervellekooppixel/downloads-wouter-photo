@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation';
 import { getPhotos } from '../../lib/getPhotos';
 
-export default function Page({ params }: { params: { slug: string } }) {
+export default async function Page({ params }: { params: { slug: string } }) {
   const slug = params.slug;
-  const files = getPhotos(slug);
+  const files = await getPhotos(slug);
 
   if (!files) {
     notFound();
