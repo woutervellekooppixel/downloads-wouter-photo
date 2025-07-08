@@ -13,8 +13,7 @@ type Props = {
 };
 
 export function generateMetadata(
-  { params }: Props,
-  _parent?: ResolvingMetadata
+  { params }: { params: { slug: string } }
 ): Metadata {
   const formattedSlug = params.slug
     .replace(/-/g, " ")
