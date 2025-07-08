@@ -45,19 +45,16 @@ export default function DownloadButton({ slug }: { slug: string }) {
         onMouseLeave={handleMouseLeave}
       >
         <div className="absolute inset-0 rounded-full border-4 border-white/60 group-hover:border-white transition-all duration-700 animate-pulse-slow" />
-        <svg
-          className="relative z-10 w-20 h-20 text-white transition-all duration-300 ease-in-out group-hover:scale-110 group-hover:opacity-100 opacity-90"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2.5}
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12v6m0 0l-3-3m3 3l3-3m0-10H9"
-          />
-        </svg>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  className="relative z-10 w-20 h-20 text-white transition-all duration-300 ease-in-out group-hover:scale-110 group-hover:opacity-100 opacity-90"
+  fill="none"
+  viewBox="0 0 24 24"
+  stroke="currentColor"
+  strokeWidth={2}
+>
+  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v12m0 0l-5-5m5 5l5-5M5 20h14" />
+</svg>
       </a>
     </div>
   )
