@@ -49,6 +49,13 @@ export default function Page(props: any) {
   </svg>
 </a>
 
+    {/* Scroll-down prompt */}
+    <div className="mt-16 flex flex-col items-center animate-bounce">
+      <a href="#gallery" className="text-white text-4xl">↓</a>
+      <p className="text-sm mt-2"></p>
+    </div>
+  </div>
+
   {/* Fotocredit */}
   <div className="absolute bottom-4 right-4 text-xs sm:text-sm text-white opacity-80">
     Lionel Richie photographed by Wouter Vellekoop
