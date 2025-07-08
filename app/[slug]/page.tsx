@@ -5,7 +5,13 @@ import { notFound } from "next/navigation";
 import Header from '../../components/Header';
 import DownloadButton from '../../components/DownloadButton';
 
-export function generateMetadata({ params }: { params: { slug: string } }) {
+type PageProps = {
+  params: {
+    slug: string;
+  };
+};
+
+export function generateMetadata({ params }: PageProps) {
   const formattedSlug = params.slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 
   return {
@@ -14,8 +20,8 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   };
 }
 
-export default function Page(props: any) {
-  const slug = props.params.slug;
+export default function Page({ params }: PageProps) {
+  const slug = params.slug;
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
   if (!fs.existsSync(folderPath)) {
@@ -42,8 +48,6 @@ export default function Page(props: any) {
 
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
           <DownloadButton slug={slug} />
-
-
         </div>
 
         <div className="absolute bottom-4 right-4 text-xs sm:text-sm text-white opacity-80 z-20">
@@ -52,7 +56,6 @@ export default function Page(props: any) {
       </section>
 
       <section id="gallery" className="bg-white py-12 px-4">
-
         <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {files.map((file) => (
             <div key={file} className="relative group overflow-hidden rounded shadow">
