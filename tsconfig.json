@@ -16,6 +16,7 @@
     "baseUrl": ".",                        // ✅ DIT TOEVOEGEN
     "paths": {
       "@/*": ["app/*"]
+      
     },
     "plugins": [
       {

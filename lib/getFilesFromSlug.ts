@@ -8,9 +8,9 @@ export function getFilesFromSlug(slug: string): string[] {
     return [];
   }
 
-  const files = fs.readdirSync(folderPath).filter((file) =>
-    /\.(jpe?g|png|webp)$/i.test(file)
-  );
+  const files = fs
+    .readdirSync(folderPath)
+    .filter((file) => /\.(jpe?g|png|webp)$/i.test(file));
 
   return files;
 }
