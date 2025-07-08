@@ -1,13 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getPhotos } from '../../lib/getPhotos';
 
-type Props = {
-  params: {
-    slug: string;
-  };
-};
-
-export default async function Page({ params }: Props) {
+export default async function Page({ params }: { params: { slug: string } }) {
   const slug = params.slug;
   const files = await getPhotos(slug);
 
@@ -23,7 +17,6 @@ export default async function Page({ params }: Props) {
         style={{ backgroundImage: `url('/background.jpg')` }}
       >
         <div className="absolute inset-0 bg-black/40" />
-
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
           <div className="relative">
             <a
@@ -46,14 +39,12 @@ export default async function Page({ params }: Props) {
               </svg>
             </a>
           </div>
-
           <div className="mt-16 flex flex-col items-center animate-bounce">
             <a href="#gallery" className="text-white text-4xl">
               ↓
             </a>
           </div>
         </div>
-
         <div className="absolute bottom-4 right-4 text-xs sm:text-sm text-white opacity-80">
           Lionel Richie photographed by Wouter Vellekoop
         </div>
@@ -63,10 +54,7 @@ export default async function Page({ params }: Props) {
       <section id="gallery" className="bg-white py-12 px-4">
         <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {files.map((file) => (
-            <div
-              key={file}
-              className="relative group overflow-hidden rounded shadow"
-            >
+            <div key={file} className="relative group overflow-hidden rounded shadow">
               <img
                 src={`/photos/${slug}/${file}`}
                 alt={file}
