@@ -6,12 +6,8 @@ import Image from "next/image";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
 
-// ✅ Metadata functie moet async zijn
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
+// ✅ Async metadata functie
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const formattedSlug = params.slug
     .replace(/-/g, " ")
     .replace(/\b\w/g, (c: string) => c.toUpperCase());
@@ -22,12 +18,8 @@ export async function generateMetadata({
   };
 }
 
-// ✅ Page functie is async
-export default async function Page({
-  params,
-}: {
-  params: { slug: string };
-}) {
+// ✅ Async page functie
+export default async function Page({ params }: { params: { slug: string } }) {
   const slug = params.slug;
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
