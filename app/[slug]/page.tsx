@@ -38,12 +38,11 @@ export default function Page(props: any) {
 <div className="relative group">
   {/* Tooltip ballon */}
   <div
-    className="absolute -top-20 left-1/2 -translate-x-1/2 z-20 
-               bg-white text-black text-xs px-3 py-2 rounded shadow-lg 
-               pointer-events-none 
-               opacity-100 group-hover:opacity-100 
-               transition-opacity duration-300 
-               animate-fade-tooltip"
+    className="absolute -top-20 left-1/2 -translate-x-1/2 z-20
+               bg-white text-black text-xs px-3 py-2 rounded shadow-lg
+               transition-opacity duration-300
+               opacity-0 group-[.tooltip-visible]:opacity-100 group-hover:opacity-100"
+    id="tooltip"
   >
     Download {slug}.zip
     <div className="absolute bottom-[-6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-white rotate-45 shadow -z-10" />
@@ -53,6 +52,14 @@ export default function Page(props: any) {
   <a
     href={`/api/download-zip?slug=${slug}`}
     className="group relative w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center overflow-hidden transition-transform duration-300 hover:scale-105 shadow-lg shadow-white/10"
+    onMouseEnter={() => {
+      const el = document.getElementById('tooltip')
+      el?.classList.add('tooltip-visible')
+    }}
+    onMouseLeave={() => {
+      const el = document.getElementById('tooltip')
+      el?.classList.remove('tooltip-visible')
+    }}
   >
     <div className="absolute inset-0 rounded-full border-4 border-white/60 group-hover:border-white transition-all duration-700 animate-pulse-slow" />
     <svg
