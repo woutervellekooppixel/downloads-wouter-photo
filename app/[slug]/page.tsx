@@ -84,7 +84,7 @@ export default async function Page({
         </section>
       </div>
     );
-  } catch (err) {
+  } catch {
     notFound();
   }
 }
