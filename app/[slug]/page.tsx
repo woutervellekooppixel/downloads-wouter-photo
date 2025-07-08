@@ -1,11 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import fs from "fs";
-import path from "path";
-import { notFound } from "next/navigation";
+'use client';
+
+import { useEffect, useState } from 'react';
+import fs from 'fs';
+import path from 'path';
+import { notFound } from 'next/navigation';
 
 export default function Page(props: any) {
   const slug = props.params.slug;
-  const folderPath = path.join(process.cwd(), "public", "photos", slug);
+  const folderPath = path.join(process.cwd(), 'public', 'photos', slug);
 
   if (!fs.existsSync(folderPath)) {
     notFound();
@@ -19,6 +21,16 @@ export default function Page(props: any) {
     notFound();
   }
 
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [clicked, setClicked] = useState(false);
+
+  useEffect(() => {
+    if (showTooltip) {
+      const timer = setTimeout(() => setShowTooltip(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [showTooltip]);
+
   return (
     <div className="min-h-screen">
       {/* Hero section */}
@@ -29,36 +41,50 @@ export default function Page(props: any) {
         {/* Donkere overlay */}
         <div className="absolute inset-0 bg-black/40" />
 
-        {/* Inhoud */}
+        {/* Inhoud in het midden */}
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
-          {/* Grote downloadknop */}
-          <a
-            href={`/api/download-zip?slug=${slug}`}
-            className="group relative w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center overflow-hidden transition-transform duration-300 hover:scale-105 shadow-lg shadow-white/10"
-          >
-            <div className="absolute inset-0 rounded-full border-4 border-white/60 group-hover:border-white transition-all duration-700 animate-pulse-slow" />
-            <svg
-              className="relative z-10 w-20 h-20 text-white transition-all duration-300 ease-in-out group-hover:scale-110 group-hover:opacity-100 opacity-90"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2.5}
-              viewBox="0 0 24 24"
+          {/* Klikbare download-rondje met tooltip */}
+          <div className="relative">
+            <a
+              href={`/api/download-zip?slug=${slug}`}
+              className={`group relative w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center overflow-hidden transition-transform duration-300 hover:scale-105 shadow-lg shadow-white/10 ${
+                clicked ? 'animate-bounce' : ''
+              }`}
+              onClick={() => {
+                setShowTooltip(true);
+                setClicked(true);
+                setTimeout(() => setClicked(false), 600); // reset bounce
+              }}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12v6m0 0l-3-3m3 3l3-3m0-10H9"
-              />
-            </svg>
-          </a>
+              <div className="absolute inset-0 rounded-full border-4 border-white/60 group-hover:border-white transition-all duration-700 animate-pulse-slow" />
+              <svg
+                className="relative z-10 w-20 h-20 text-white transition-all duration-300 ease-in-out group-hover:scale-110 group-hover:opacity-100 opacity-90"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2.5}
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12v6m0 0l-3-3m3 3l3-3m0-10H9"
+                />
+              </svg>
+            </a>
 
-          {/* Toelichting ZIP-download */}
-          <p className="mt-4 text-sm text-white/80">Download alle fotos in één ZIP-bestand</p>
+            {/* Tooltip */}
+            {showTooltip && (
+              <div className="absolute bottom-full mb-4 left-1/2 -translate-x-1/2 bg-white text-black text-xs px-3 py-2 rounded-full shadow transition-opacity duration-300">
+                Download {slug}.zip
+              </div>
+            )}
+          </div>
 
-          {/* Scroll prompt */}
+          {/* Scroll-down prompt */}
           <div className="mt-16 flex flex-col items-center animate-bounce">
-            <a href="#gallery" className="text-white text-4xl">↓</a>
-            <p className="text-sm mt-2 text-white/70">Bekijk losse fotos</p>
+            <a href="#gallery" className="text-white text-4xl">
+              ↓
+            </a>
           </div>
         </div>
 
@@ -68,17 +94,14 @@ export default function Page(props: any) {
         </div>
       </section>
 
-      {/* Gallery sectie */}
+      {/* Gallery section */}
       <section id="gallery" className="bg-white py-12 px-4">
-        {/* Introtekst */}
-        <p className="text-center text-gray-600 text-sm mb-6">
-          Of download losse fotos hieronder ⬇
-        </p>
-
-        {/* Afbeeldingen */}
         <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {files.map((file) => (
-            <div key={file} className="relative group overflow-hidden rounded shadow">
+            <div
+              key={file}
+              className="relative group overflow-hidden rounded shadow"
+            >
               <img
                 src={`/photos/${slug}/${file}`}
                 alt={file}
@@ -88,7 +111,6 @@ export default function Page(props: any) {
                 <a
                   href={`/photos/${slug}/${file}`}
                   download
-                  title="Download deze foto"
                   className="bg-white text-black rounded-full px-4 py-2 text-sm shadow hover:bg-gray-200 transition"
                 >
                   ⬇
