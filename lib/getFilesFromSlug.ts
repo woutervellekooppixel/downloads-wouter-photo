@@ -7,7 +7,7 @@ export async function getFilesFromSlug(slug: string): Promise<string[]> {
   try {
     const files = await fs.readdir(folderPath);
     return files.filter((file) => /\.(jpe?g|png|webp)$/i.test(file));
-  } catch (error) {
-    return [];
-  }
+} catch {
+  return [];
+}
 }
