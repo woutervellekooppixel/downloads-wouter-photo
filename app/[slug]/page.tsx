@@ -11,7 +11,7 @@ type PageProps = {
   };
 };
 
-export function generateMetadata({ params }: PageProps): Metadata {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const formattedSlug = params.slug
     .replace(/-/g, " ")
     .replace(/\b\w/g, (c) => c.toUpperCase());
