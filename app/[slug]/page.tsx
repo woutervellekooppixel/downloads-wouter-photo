@@ -5,12 +5,11 @@ import type { Metadata } from "next";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
 
-// ✅ veilige metadata-functie met expliciete props
-export function generateMetadata({
-  params,
-}: {
+type PageProps = {
   params: { slug: string };
-}): Metadata {
+};
+
+export function generateMetadata({ params }: PageProps): Metadata {
   const formattedSlug = params.slug
     .replace(/-/g, " ")
     .replace(/\b\w/g, (c: string) => c.toUpperCase());
@@ -21,30 +20,19 @@ export function generateMetadata({
   };
 }
 
-// ✅ veilige Page component, zonder build-errors
-export default function Page({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const { slug } = params;
+export default function Page({ params }: PageProps) {
+  const slug = params.slug;
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
-  let files: string[] = [];
-  try {
-    if (!fs.existsSync(folderPath)) {
-      notFound();
-    }
+  if (!fs.existsSync(folderPath)) {
+    notFound();
+  }
 
-    files = fs
-      .readdirSync(folderPath)
-      .filter((file) => /\.(jpe?g|png|webp)$/i.test(file));
+  const files = fs
+    .readdirSync(folderPath)
+    .filter((file) => /\.(jpe?g|png|webp)$/i.test(file));
 
-    if (files.length === 0) {
-      notFound();
-    }
-  } catch (error) {
-    console.error("Error reading folder:", error);
+  if (files.length === 0) {
     notFound();
   }
 
