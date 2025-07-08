@@ -22,30 +22,39 @@ export default function Page(props: any) {
   return (
     <div className="min-h-screen">
       {/* Hero section */}
-      <section
-        className="h-screen bg-cover bg-center relative"
-        style={{ backgroundImage: `url('/background.jpg')` }}
-      >
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
-          <div className="relative w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center overflow-hidden">
-            <div className="absolute inset-0 border-white rounded-full animate-spin-slow" />
-            <a
-              href={`/api/download-zip?slug=${slug}`}
-              className="relative z-10 text-white px-6 py-3 rounded-full transition"
-            >
-              Download
-            </a>
-          </div>
-          <div className="mt-16 flex flex-col items-center animate-bounce">
-            <a href="#gallery" className="text-white text-4xl">↓</a>
-            <p className="text-sm mt-2">Klik hier voor alle thumbnails</p>
-          </div>
-        </div>
-        <div className="absolute bottom-4 right-4 text-xs sm:text-sm text-white-600">
+<section
+  className="relative h-screen bg-cover bg-center"
+  style={{ backgroundImage: `url('/background.jpg')` }}
+>
+  {/* Donkere overlay */}
+  <div className="absolute inset-0 bg-black/40" />
+
+  {/* Inhoud in het midden */}
+  <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
+    
+    {/* Klikbaar download-rondje */}
+    <a
+      href={`/api/download-zip?slug=${slug}`}
+      className="group relative w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center overflow-hidden transition-transform hover:scale-105"
+    >
+      <div className="absolute inset-0 border-4 border-white rounded-full animate-spin-slow group-hover:brightness-110" />
+      <span className="relative z-10 text-white px-6 py-3 rounded-full">
+        Download
+      </span>
+    </a>
+
+    {/* Scroll-down prompt */}
+    <div className="mt-16 flex flex-col items-center animate-bounce">
+      <a href="#gallery" className="text-white text-4xl">↓</a>
+      <p className="text-sm mt-2">Klik hier voor alle thumbnails</p>
+    </div>
+  </div>
+
+  {/* Fotocredit */}
+  <div className="absolute bottom-4 right-4 text-xs sm:text-sm text-white opacity-80">
     Lionel Richie photographed by Wouter Vellekoop
   </div>
-      </section>
+</section>
 
       {/* Gallery section */}
       <section id="gallery" className="bg-white py-12 px-4">
