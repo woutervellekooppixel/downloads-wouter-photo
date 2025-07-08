@@ -34,10 +34,7 @@ export default function Page(props: any) {
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
           <DownloadButton slug={slug} />
 
-          <div className="mt-16 flex flex-col items-center animate-bounce">
-            <a href="#gallery" className="text-white text-4xl">↓</a>
-            <p className="text-sm mt-2 text-white/70">Bekijk losse fotos</p>
-          </div>
+
         </div>
 
         <div className="absolute bottom-4 right-4 text-xs sm:text-sm text-white opacity-80 z-20">
@@ -46,9 +43,6 @@ export default function Page(props: any) {
       </section>
 
       <section id="gallery" className="bg-white py-12 px-4">
-        <p className="text-center text-gray-600 text-sm mb-6">
-          Of download losse fotos hieronder ⬇
-        </p>
 
         <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {files.map((file) => (
