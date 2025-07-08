@@ -1,11 +1,13 @@
 import { notFound } from 'next/navigation';
 import { getPhotos } from '../../lib/getPhotos';
 
-export default async function Page({
-  params,
-}: {
-  params: { slug: string };
-}) {
+type Props = {
+  params: {
+    slug: string;
+  };
+};
+
+export default async function Page({ params }: Props) {
   const slug = params.slug;
   const files = await getPhotos(slug);
 
