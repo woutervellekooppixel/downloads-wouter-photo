@@ -10,7 +10,7 @@ export async function getPhotos(slug: string): Promise<string[] | null> {
       /\.(jpe?g|png|webp)$/i.test(file)
     );
     return imageFiles.length > 0 ? imageFiles : null;
-  } catch (error) {
+  } catch {
     return null;
   }
 }
