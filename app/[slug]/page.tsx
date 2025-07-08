@@ -1,35 +1,13 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import fs from 'fs';
-import path from 'path';
 import { notFound } from 'next/navigation';
+import { getPhotos } from '@/lib/getPhotos';
 
-export default function Page(props: any) {
-  const slug = props.params.slug;
-  const folderPath = path.join(process.cwd(), 'public', 'photos', slug);
+export default function Page({ params }: { params: { slug: string } }) {
+  const slug = params.slug;
+  const files = getPhotos(slug);
 
-  if (!fs.existsSync(folderPath)) {
+  if (!files) {
     notFound();
   }
-
-  const files = fs.readdirSync(folderPath).filter((file) =>
-    /\.(jpe?g|png|webp)$/i.test(file)
-  );
-
-  if (files.length === 0) {
-    notFound();
-  }
-
-  const [showTooltip, setShowTooltip] = useState(false);
-  const [clicked, setClicked] = useState(false);
-
-  useEffect(() => {
-    if (showTooltip) {
-      const timer = setTimeout(() => setShowTooltip(false), 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [showTooltip]);
 
   return (
     <div className="min-h-screen">
@@ -38,23 +16,13 @@ export default function Page(props: any) {
         className="relative h-screen bg-cover bg-center"
         style={{ backgroundImage: `url('/background.jpg')` }}
       >
-        {/* Donkere overlay */}
         <div className="absolute inset-0 bg-black/40" />
 
-        {/* Inhoud in het midden */}
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
-          {/* Klikbare download-rondje met tooltip */}
           <div className="relative">
             <a
               href={`/api/download-zip?slug=${slug}`}
-              className={`group relative w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center overflow-hidden transition-transform duration-300 hover:scale-105 shadow-lg shadow-white/10 ${
-                clicked ? 'animate-bounce' : ''
-              }`}
-              onClick={() => {
-                setShowTooltip(true);
-                setClicked(true);
-                setTimeout(() => setClicked(false), 600); // reset bounce
-              }}
+              className="group relative w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center overflow-hidden transition-transform duration-300 hover:scale-105 shadow-lg shadow-white/10"
             >
               <div className="absolute inset-0 rounded-full border-4 border-white/60 group-hover:border-white transition-all duration-700 animate-pulse-slow" />
               <svg
@@ -71,16 +39,8 @@ export default function Page(props: any) {
                 />
               </svg>
             </a>
-
-            {/* Tooltip */}
-            {showTooltip && (
-              <div className="absolute bottom-full mb-4 left-1/2 -translate-x-1/2 bg-white text-black text-xs px-3 py-2 rounded-full shadow transition-opacity duration-300">
-                Download {slug}.zip
-              </div>
-            )}
           </div>
 
-          {/* Scroll-down prompt */}
           <div className="mt-16 flex flex-col items-center animate-bounce">
             <a href="#gallery" className="text-white text-4xl">
               ↓
@@ -88,7 +48,6 @@ export default function Page(props: any) {
           </div>
         </div>
 
-        {/* Fotocredit */}
         <div className="absolute bottom-4 right-4 text-xs sm:text-sm text-white opacity-80">
           Lionel Richie photographed by Wouter Vellekoop
         </div>
