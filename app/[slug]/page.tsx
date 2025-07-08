@@ -1,10 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client';
-
 import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
-import { useEffect, useState } from "react";
 
 export default function Page(props: any) {
   const slug = props.params.slug;
@@ -22,22 +19,6 @@ export default function Page(props: any) {
     notFound();
   }
 
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          return 100;
-        }
-        return prev + 1;
-      });
-    }, 20); // Duur: ~2 seconden
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <div className="min-h-screen">
       {/* Hero section */}
@@ -46,52 +27,24 @@ export default function Page(props: any) {
         style={{ backgroundImage: `url('/background.jpg')` }}
       >
         <div className="absolute inset-0 bg-black/40" />
-
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
-          <div className="relative w-40 h-40">
-            <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-              <circle
-                cx="50"
-                cy="50"
-                r="45"
-                stroke="white"
-                strokeOpacity="0.3"
-                strokeWidth="6"
-                fill="none"
-              />
-              <circle
-                cx="50"
-                cy="50"
-                r="45"
-                stroke="white"
-                strokeWidth="6"
-                fill="none"
-                strokeDasharray="282.6"
-                strokeDashoffset={282.6 - (progress / 100) * 282.6}
-                className="transition-all duration-300 ease-out"
-              />
-            </svg>
-            <div className="absolute inset-0 flex items-center justify-center text-white text-xl font-semibold">
-              {progress}%
-            </div>
+          <div className="relative w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center overflow-hidden">
+            <div className="absolute inset-0 border-white rounded-full animate-spin-slow" />
             <a
               href={`/api/download-zip?slug=${slug}`}
-              className="absolute bottom-0 left-1/2 -translate-x-1/2 mt-2 text-white bg-black/70 px-4 py-1 rounded-full text-sm"
+              className="relative z-10 text-white px-6 py-3 rounded-full transition"
             >
               Download
             </a>
           </div>
-
           <div className="mt-16 flex flex-col items-center animate-bounce">
             <a href="#gallery" className="text-white text-4xl">↓</a>
             <p className="text-sm mt-2">Klik hier voor alle thumbnails</p>
           </div>
         </div>
-
-        {/* Onderschrift */}
-        <div className="absolute bottom-4 right-4 text-xs sm:text-sm text-white">
-          Lionel Richie photographed by Wouter Vellekoop
-        </div>
+        <div className="absolute bottom-4 right-4 text-xs sm:text-sm text-white-600">
+    Lionel Richie photographed by Wouter Vellekoop
+  </div>
       </section>
 
       {/* Gallery section */}
