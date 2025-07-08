@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getPhotos } from '@/lib/getPhotos';
+import { getPhotos } from '../../lib/getPhotos';
 
 export default function Page({ params }: { params: { slug: string } }) {
   const slug = params.slug;
