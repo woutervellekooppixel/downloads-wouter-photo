@@ -26,17 +26,16 @@ export default function DownloadButton({ slug }: { slug: string }) {
   return (
     <div className="relative group">
       {/* Tooltip ballon */}
-      <div
-        className="absolute -top-20 left-1/2 -translate-x-1/2 z-20
-                   bg-white text-black text-xs px-3 py-2 rounded shadow-lg
-                   opacity-0 transition-opacity duration-500 ease-in-out group-hover:opacity-80
-                   opacity-0 pointer-events-none
-                   tooltip"
-        id="tooltip"
-      >
-        Download {slug}.zip
-        <div className="absolute bottom-[-6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-white/80 rotate-45 shadow -z-10" />
-      </div>
+<div
+  id="tooltip"
+  className="absolute -top-20 left-1/2 -translate-x-1/2 z-20
+             bg-white/90 text-black text-xs px-3 py-2 rounded shadow-lg
+             opacity-0 transition-opacity duration-500 ease-in-out pointer-events-none
+             tooltip group-hover:opacity-100 tooltip-visible"
+>
+  Download {slug}.zip
+  <div className="absolute bottom-[-6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-white/90 rotate-45 shadow -z-10" />
+</div>
 
       {/* Knop zelf */}
       <a
