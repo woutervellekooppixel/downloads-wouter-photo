@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import { getFilesFromSlug } from "@/lib/getFilesFromSlug";
-import Hero from "./Hero"; // client component
-import Gallery from "./Gallery"; // client component
+import { getFilesFromSlug } from "../../lib/getFilesFromSlug";
+import Hero from "../Hero"; // client component
+import Gallery from "../Gallery"; // client component
 
 export default function Page({ params }: { params: { slug: string } }) {
   const files = getFilesFromSlug(params.slug);
