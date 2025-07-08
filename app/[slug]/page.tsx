@@ -25,7 +25,7 @@ export default function Page(props: any) {
       {/* Download blok in het midden */}
 <section className="bg-white py-24 px-4 relative">
   <div className="max-w-md mx-auto bg-gray-100 rounded-2xl shadow-lg p-8 text-center">
-    <h1 className="text-2xl font-semibold mb-6">Download je foto's</h1>
+    <h1 className="text-2xl font-semibold mb-6">DOWNLOAD</h1>
     <a
       href={`/api/download-zip?slug=${slug}`}
       className="bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition"
