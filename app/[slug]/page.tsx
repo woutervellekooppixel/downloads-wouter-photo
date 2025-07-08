@@ -35,11 +35,11 @@ export default function Page(props: any) {
     {/* Klikbaar download-rondje */}
 <a
   href={`/api/download-zip?slug=${slug}`}
-  className="group relative w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center overflow-hidden transition-transform hover:scale-105"
+  className="group relative w-40 h-40 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center overflow-hidden transition-transform duration-300 hover:scale-105 shadow-lg shadow-white/10"
 >
-  <div className="absolute inset-0 rounded-full animate-spin-slow group-hover:brightness-110" />
+  <div className="absolute inset-0 rounded-full border-4 border-white/60 group-hover:border-white transition-all duration-700 animate-pulse-slow" />
   <svg
-    className="relative z-10 w-20 h-20 text-white"
+    className="relative z-10 w-20 h-20 text-white transition-all duration-300 ease-in-out group-hover:scale-110 group-hover:opacity-100 opacity-90"
     fill="none"
     stroke="currentColor"
     strokeWidth={2.5}
