@@ -29,7 +29,7 @@ export default function DownloadButton({ slug }: { slug: string }) {
       <div
         className="absolute -top-20 left-1/2 -translate-x-1/2 z-20
                    bg-white text-black text-xs px-3 py-2 rounded shadow-lg
-                   transition-opacity duration-300
+                   opacity-0 transition-opacity duration-500 ease-in-out group-hover:opacity-100
                    opacity-0 pointer-events-none
                    tooltip"
         id="tooltip"
