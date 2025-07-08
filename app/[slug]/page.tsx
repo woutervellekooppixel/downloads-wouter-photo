@@ -5,6 +5,15 @@ import { notFound } from "next/navigation";
 import Header from '../../components/Header';
 import DownloadButton from '../../components/DownloadButton';
 
+export function generateMetadata({ params }: { params: { slug: string } }) {
+  const formattedSlug = params.slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+  return {
+    title: `downloads.wouter.photo | ${formattedSlug}`,
+    description: `Download alle foto's van ${formattedSlug}`,
+  };
+}
+
 export default function Page(props: any) {
   const slug = props.params.slug;
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
