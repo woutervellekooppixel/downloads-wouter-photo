@@ -20,7 +20,7 @@ export async function generateMetadata(props: unknown): Promise<Metadata> {
 
   return {
     title: `Downloads Wouter.Photo | ${formattedSlug}`,
-    description: `Download alle foto's van ${formattedSlug}`,
+    description: `Download alle foto&#39;s van ${formattedSlug}`,
   };
 }
 
@@ -54,7 +54,7 @@ export default async function Page(props: unknown) {
 
             {/* Scroll hint */}
             <div className="mt-6 animate-bounce text-white text-sm opacity-80">
-              ↓ Scroll voor alle foto's
+              ↓ Scroll voor alle foto&#39;s
             </div>
           </div>
 
