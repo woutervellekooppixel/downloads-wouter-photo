@@ -1,11 +1,38 @@
 import fs from "fs/promises";
 import path from "path";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
 
-export default async function Page({ params }: { params: { slug: string } }) {
+// ✅ Metadata functie moet async zijn
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const formattedSlug = params.slug
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (c: string) => c.toUpperCase());
+
+  return {
+    title: `Downloads Wouter.Photo | ${formattedSlug}`,
+    description: `Download alle foto's van ${formattedSlug}`,
+  };
+}
+
+// ✅ Dummy functie om types af te leiden
+export async function generateStaticParams() {
+  return [];
+}
+
+type PageProps = Awaited<ReturnType<typeof generateStaticParams>>[number] & {
+  params: { slug: string };
+};
+
+// ✅ Page functie met afgeleide types
+export default async function Page({ params }: PageProps) {
   const slug = params.slug;
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
