@@ -5,7 +5,7 @@ export default function CopyButton({ text }: { text: string }) {
     <button
       onClick={() => navigator.clipboard.writeText(text)}
       style={{
-        background: "#eee",
+        background: "#686868",
         border: "none",
         padding: "0.3rem 0.6rem",
         cursor: "pointer",
