@@ -6,13 +6,11 @@ import Image from "next/image";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
 
-// ✅ Async metadata functie
-export async function generateMetadata({
-  // @ts-expect-error: Vercel type bug
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
+// ✅ Metadata functie
+export async function generateMetadata(
+  // @ts-ignore
+  { params }: { params: { slug: string } }
+): Promise<Metadata> {
   const formattedSlug = params.slug
     .replace(/-/g, " ")
     .replace(/\b\w/g, (c: string) => c.toUpperCase());
@@ -23,13 +21,11 @@ export async function generateMetadata({
   };
 }
 
-// ✅ Async page functie
-export default async function Page({
-  // @ts-expect-error: Vercel type bug
-  params,
-}: {
-  params: { slug: string };
-}) {
+// ✅ Page functie
+export default async function Page(
+  // @ts-ignore
+  { params }: { params: { slug: string } }
+) {
   const slug = params.slug;
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
