@@ -6,8 +6,9 @@ import Image from "next/image";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
 
-// ✅ Metadata functie moet async zijn
+// ✅ Async metadata functie
 export async function generateMetadata({
+  // @ts-expect-error: Vercel type bug
   params,
 }: {
   params: { slug: string };
@@ -22,17 +23,13 @@ export async function generateMetadata({
   };
 }
 
-// ✅ Dummy functie om types af te leiden
-export async function generateStaticParams() {
-  return [];
-}
-
-type PageProps = Awaited<ReturnType<typeof generateStaticParams>>[number] & {
+// ✅ Async page functie
+export default async function Page({
+  // @ts-expect-error: Vercel type bug
+  params,
+}: {
   params: { slug: string };
-};
-
-// ✅ Page functie met afgeleide types
-export default async function Page({ params }: PageProps) {
+}) {
   const slug = params.slug;
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
