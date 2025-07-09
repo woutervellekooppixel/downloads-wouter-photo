@@ -6,17 +6,15 @@ import Image from "next/image";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
 
-type Params = {
-  slug: string;
-};
+type Params = { slug: string };
+type Props = { params: Params };
 
-type Props = {
-  params: Params;
-};
+// ✅ Metadata functie met veilige cast
+export async function generateMetadata(props: unknown): Promise<Metadata> {
+  const { params } = props as Props;
+  const { slug } = params;
 
-// ✅ Metadata functie
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const formattedSlug = params.slug
+  const formattedSlug = slug
     .replace(/-/g, " ")
     .replace(/\b\w/g, (c: string) => c.toUpperCase());
 
@@ -26,9 +24,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-// ✅ Page functie
-export default async function Page({ params }: Props) {
-  const slug = params.slug;
+// ✅ Page functie met veilige cast
+export default async function Page(props: unknown) {
+  const { params } = props as Props;
+  const { slug } = params;
+
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
   try {
@@ -53,18 +53,23 @@ export default async function Page({ params }: Props) {
             <DownloadButton slug={slug} />
 
             {/* Scroll hint */}
-            
+            <div className="mt-6 animate-bounce text-white text-sm opacity-80">
+              ↓ Scroll voor alle foto's
+            </div>
           </div>
-          {/* Beschrijving rechts onderin */}
-<div className="hidden md:block absolute bottom-4 right-4 text-xs sm:text-sm text-white opacity-80 z-10">
-  Lionel Richie photographed by Wouter Vellekoop
-</div>
+
+          <div className="hidden md:block absolute bottom-4 right-4 text-xs sm:text-sm text-white opacity-80 z-10">
+            Lionel Richie photographed by Wouter Vellekoop
+          </div>
         </section>
 
         <section id="gallery" className="bg-white py-12 px-4">
           <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {files.map((file) => (
-              <div key={file} className="relative group overflow-hidden rounded shadow">
+              <div
+                key={file}
+                className="relative group overflow-hidden rounded shadow"
+              >
                 <Image
                   src={`/photos/${slug}/${file}`}
                   alt={file}
