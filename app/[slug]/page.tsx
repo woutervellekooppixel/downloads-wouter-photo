@@ -6,15 +6,18 @@ import Image from "next/image";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
 
-type Props = {
-  params: {
-    slug: string;
-  };
+type Params = {
+  slug: string;
 };
 
-// ✅ Metadata functie
-export async function generateMetadata(props: Props): Promise<Metadata> {
-  const { slug } = props.params;
+type Props = {
+  params: Params;
+};
+
+// ✅ Metadata functie met veilige cast
+export async function generateMetadata(props: unknown): Promise<Metadata> {
+  const { params } = props as Props;
+  const { slug } = params;
 
   const formattedSlug = slug
     .replace(/-/g, " ")
@@ -26,9 +29,11 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   };
 }
 
-// ✅ Page functie
-export default async function Page(props: Props) {
-  const { slug } = props.params;
+// ✅ Page functie met veilige cast
+export default async function Page(props: unknown) {
+  const { params } = props as Props;
+  const { slug } = params;
+
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
   try {
