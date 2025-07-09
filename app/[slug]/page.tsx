@@ -14,12 +14,9 @@ type Props = {
   params: Params;
 };
 
-// ✅ Metadata functie met veilige cast
-export async function generateMetadata(props: unknown): Promise<Metadata> {
-  const { params } = props as Props;
-  const { slug } = params;
-
-  const formattedSlug = slug
+// ✅ Metadata functie
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const formattedSlug = params.slug
     .replace(/-/g, " ")
     .replace(/\b\w/g, (c: string) => c.toUpperCase());
 
@@ -29,11 +26,9 @@ export async function generateMetadata(props: unknown): Promise<Metadata> {
   };
 }
 
-// ✅ Page functie met veilige cast
-export default async function Page(props: unknown) {
-  const { params } = props as Props;
-  const { slug } = params;
-
+// ✅ Page functie
+export default async function Page({ params }: Props) {
+  const slug = params.slug;
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
   try {
@@ -48,15 +43,20 @@ export default async function Page(props: unknown) {
     return (
       <div className="min-h-screen">
         <Header />
+
         <section
-          className="relative h-screen bg-cover bg-center"
+          className="relative h-[60vh] sm:h-screen bg-cover bg-center"
           style={{ backgroundImage: `url('/background.jpg')` }}
         >
           <div className="absolute inset-0 bg-black/40" />
           <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
             <DownloadButton slug={slug} />
+
+            {/* Scroll hint */}
+            
           </div>
         </section>
+
         <section id="gallery" className="bg-white py-12 px-4">
           <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {files.map((file) => (
