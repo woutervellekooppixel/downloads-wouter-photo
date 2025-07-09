@@ -6,9 +6,9 @@ import Image from "next/image";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
 
-// ✅ Metadata functie
+// ✅ Metadata functie met @ts-expect-error
 export async function generateMetadata(
-  // @ts-ignore
+  // @ts-expect-error
   { params }: { params: { slug: string } }
 ): Promise<Metadata> {
   const formattedSlug = params.slug
@@ -21,9 +21,9 @@ export async function generateMetadata(
   };
 }
 
-// ✅ Page functie
+// ✅ Page functie met @ts-expect-error
 export default async function Page(
-  // @ts-ignore
+  // @ts-expect-error
   { params }: { params: { slug: string } }
 ) {
   const slug = params.slug;
