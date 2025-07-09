@@ -6,12 +6,11 @@ import Image from "next/image";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
 
-// ✅ Metadata functie met uitleg
-export async function generateMetadata(
-  // @ts-expect-error – Next.js type bug: params incorrectly inferred as Promise
-  { params }: { params: { slug: string } }
-): Promise<Metadata> {
-  const formattedSlug = params.slug
+// ✅ Metadata functie zonder destructurering
+export async function generateMetadata(props: any): Promise<Metadata> {
+  const { slug } = props.params as { slug: string };
+
+  const formattedSlug = slug
     .replace(/-/g, " ")
     .replace(/\b\w/g, (c: string) => c.toUpperCase());
 
@@ -21,12 +20,9 @@ export async function generateMetadata(
   };
 }
 
-// ✅ Page functie met uitleg
-export default async function Page(
-  // @ts-expect-error – Next.js type bug: params incorrectly inferred as Promise
-  { params }: { params: { slug: string } }
-) {
-  const slug = params.slug;
+// ✅ Page functie zonder destructurering
+export default async function Page(props: any) {
+  const { slug } = props.params as { slug: string };
   const folderPath = path.join(process.cwd(), "public", "photos", slug);
 
   try {
