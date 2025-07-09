@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import CopyButton from "../components/CopyButton";
 
 export default async function BeheerPage() {
-  const headersList = headers();
+  const headersList = await headers();
   const auth = headersList.get("authorization");
 
   const expected = `Basic ${Buffer.from(
@@ -20,10 +20,12 @@ export default async function BeheerPage() {
 
   const photosDir = path.join(process.cwd(), "public", "photos");
 
-  let folders: string[] = [];
+  let slugs: string[] = [];
   try {
     const entries = await fs.readdir(photosDir, { withFileTypes: true });
-    folders = entries.filter((e) => e.isDirectory()).map((e) => e.name);
+    slugs = entries
+      .filter((e) => e.isDirectory())
+      .map((e) => e.name.toString()); // ✅ forceer string
   } catch {
     return <div>Kan mappen niet lezen.</div>;
   }
@@ -40,7 +42,7 @@ export default async function BeheerPage() {
           </tr>
         </thead>
         <tbody>
-          {folders.map((slug) => {
+          {slugs.map((slug) => {
             const url = `https://downloads.wouter.photo/${slug}`;
             return (
               <tr key={slug} style={{ borderTop: "1px solid #ccc" }}>
