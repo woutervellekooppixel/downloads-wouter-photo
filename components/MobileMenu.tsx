@@ -10,7 +10,7 @@ export default function MobileMenu() {
 
   return (
     <div className="md:hidden">
-      <button onClick={() => setOpen(true)} className="text-black">
+      <button onClick={() => setOpen(true)} className="text-white">
         <Menu size={24} />
       </button>
 

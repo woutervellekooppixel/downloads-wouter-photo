@@ -55,6 +55,10 @@ export default async function Page({ params }: Props) {
             {/* Scroll hint */}
             
           </div>
+          {/* Beschrijving rechts onderin */}
+<div className="hidden md:block absolute bottom-4 right-4 text-xs sm:text-sm text-white opacity-80 z-10">
+  Lionel Richie photographed by Wouter Vellekoop
+</div>
         </section>
 
         <section id="gallery" className="bg-white py-12 px-4">
