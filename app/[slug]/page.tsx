@@ -6,9 +6,9 @@ import Image from "next/image";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
 
-// ✅ Metadata functie met @ts-expect-error
+// ✅ Metadata functie met uitleg
 export async function generateMetadata(
-  // @ts-expect-error
+  // @ts-expect-error – Next.js type bug: params incorrectly inferred as Promise
   { params }: { params: { slug: string } }
 ): Promise<Metadata> {
   const formattedSlug = params.slug
@@ -21,9 +21,9 @@ export async function generateMetadata(
   };
 }
 
-// ✅ Page functie met @ts-expect-error
+// ✅ Page functie met uitleg
 export default async function Page(
-  // @ts-expect-error
+  // @ts-expect-error – Next.js type bug: params incorrectly inferred as Promise
   { params }: { params: { slug: string } }
 ) {
   const slug = params.slug;
