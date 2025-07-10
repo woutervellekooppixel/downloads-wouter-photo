@@ -101,11 +101,9 @@ export default async function Page(props: unknown) {
               </div>
             )}
           </div>
-          {isPhotoGallery && (
-            <div className="hidden md:block absolute bottom-4 right-4 text-xs sm:text-sm text-white opacity-80 z-10">
+          <div className="hidden md:block absolute bottom-4 right-4 text-xs sm:text-sm text-white opacity-80 z-10">
               Lionel Richie photographed by Wouter Vellekoop
             </div>
-          )}
         </section>
 
         {isPhotoGallery && (
