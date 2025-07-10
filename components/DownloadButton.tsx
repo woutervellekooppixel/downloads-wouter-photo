@@ -36,7 +36,7 @@ export default function DownloadButton({ slug }: { slug: string }) {
 <a
   href={`/zips/${slug}.zip`}
   download
-  className="relative z-10 bg-white text-black rounded-full px-6 py-3 text-lg shadow hover:bg-gray-200 transition"
+  className="relative z-10 bg-white text-black rounded-full px-10 py-10 text-lg shadow hover:bg-gray-200 transition"
 >
   {/* Sonar-animatie cirkel */}
   <span className="absolute inset-0 rounded-full bg-black/10 animate-ping-custom z-0" />
@@ -46,7 +46,7 @@ export default function DownloadButton({ slug }: { slug: string }) {
 
   {/* Icoon */}
   <svg
-    className="relative z-10 w-10 h-10 text-black transition-all duration-300 ease-in-out group-hover:scale-110"
+    className="relative z-10 w-10 h-10 text-gray transition-all duration-300 ease-in-out group-hover:scale-110"
     fill="none"
     stroke="currentColor"
     strokeWidth={2.5}
