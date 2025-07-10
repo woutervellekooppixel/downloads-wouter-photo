@@ -34,9 +34,10 @@ export default function DownloadButton({ slug }: { slug: string }) {
 
       {/* Downloadknop */}
       <a
-        href={`/api/download-zip?slug=${slug}`}
-        className="group relative w-24 h-24 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center overflow-hidden transition-transform duration-300 hover:scale-105 shadow-xl border border-white/30"
-      >
+  href={`/zips/${slug}.zip`} // ↩️ rechtstreeks naar het gegenereerde zipbestand
+  download
+  className="group relative w-24 h-24 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center overflow-hidden transition-transform duration-300 hover:scale-105 shadow-xl border border-white/30"
+>
         <div className="absolute inset-0 rounded-full border border-white/40 animate-pulse-slow z-0" />
         <svg
           className="relative z-10 w-10 h-10 text-white transition-all duration-300 ease-in-out group-hover:scale-110"
