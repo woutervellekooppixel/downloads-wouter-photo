@@ -64,8 +64,8 @@ export default async function BeheerPage() {
         <table className="min-w-full bg-white border border-gray-200 shadow-sm rounded">
           <thead>
             <tr className="text-left bg-gray-100 text-sm text-gray-600">
-              <th className="py-3 px-4">Categorie</th>
-              <th className="py-3 px-4">Slug</th>
+              <th className="py-3 px-4 text-black">Categorie</th>
+              <th className="py-3 px-4 text-black">Slug</th>
               <th className="py-3 px-4">Link</th>
               <th className="py-3 px-4 hidden md:table-cell">Gewijzigd</th>
               <th className="py-3 px-4"></th>
