@@ -33,22 +33,28 @@ export default function DownloadButton({ slug }: { slug: string }) {
 </div>
 
       {/* Downloadknop */}
-      <a
-  href={`/zips/${slug}.zip`} // ↩️ rechtstreeks naar het gegenereerde zipbestand
+<a
+  href={`/zips/${slug}.zip`}
   download
-  className="relative z-10 bg-white text-black rounded-full px-6 py-3 text-lg shadow hover:bg-gray-200 transition overflow-hidden before:absolute before:inset-0 before:rounded-full before:animate-ping-custom before:bg-black/10"
+  className="relative z-10 bg-white text-black rounded-full px-6 py-3 text-lg shadow hover:bg-gray-200 transition"
 >
-        <div className="absolute inset-0 rounded-full border border-white/40 animate-pulse-slow z-0" />
-        <svg
-          className="relative z-10 w-10 h-10 text-white transition-all duration-300 ease-in-out group-hover:scale-110"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2.5}
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-        </svg>
-      </a>
+  {/* Sonar-animatie cirkel */}
+  <span className="absolute inset-0 rounded-full bg-black/10 animate-ping-custom z-0" />
+
+  {/* Witte rand die pulseert */}
+  <div className="absolute inset-0 rounded-full border border-white/40 animate-pulse-slow z-0" />
+
+  {/* Icoon */}
+  <svg
+    className="relative z-10 w-10 h-10 text-black transition-all duration-300 ease-in-out group-hover:scale-110"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2.5}
+    viewBox="0 0 24 24"
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+  </svg>
+</a>
     </motion.div>
   )
 }
