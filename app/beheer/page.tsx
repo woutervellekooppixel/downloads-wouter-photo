@@ -55,10 +55,7 @@ export default async function BeheerPage() {
 
   return (
     <main className="min-h-screen bg-gray-50 px-6 py-10 font-sans">
-      <h1 className="text-2xl font-bold mb-2">📁 Mijn downloads</h1>
-      <p className="text-sm text-gray-600 mb-6">
-        Totaal {allSlugs.length} mappen gevonden
-      </p>
+
 
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-200 shadow-sm rounded">
@@ -79,8 +76,8 @@ export default async function BeheerPage() {
                   key={`${type}-${slug}`}
                   className="border-t border-gray-200 hover:bg-gray-50 transition"
                 >
-                  <td className="py-3 px-4 text-sm">{type}</td>
-                  <td className="py-3 px-4 text-sm font-mono">{slug}</td>
+                  <td className="py-3 px-4 text-sm text-black">{type}</td>
+                  <td className="py-3 px-4 text-sm font-mono text-black">{slug}</td>
                   <td className="py-3 px-4">
                     <a
                       href={`/${slug}`}
