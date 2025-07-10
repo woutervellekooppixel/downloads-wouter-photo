@@ -36,7 +36,7 @@ export default function DownloadButton({ slug }: { slug: string }) {
       <a
   href={`/zips/${slug}.zip`} // ↩️ rechtstreeks naar het gegenereerde zipbestand
   download
-  className="group relative w-24 h-24 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center overflow-hidden transition-transform duration-300 hover:scale-105 shadow-xl border border-white/30"
+  className="relative z-10 bg-white text-black rounded-full px-6 py-3 text-lg shadow hover:bg-gray-200 transition overflow-hidden before:absolute before:inset-0 before:rounded-full before:animate-ping-custom before:bg-black/10"
 >
         <div className="absolute inset-0 rounded-full border border-white/40 animate-pulse-slow z-0" />
         <svg
