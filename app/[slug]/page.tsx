@@ -72,7 +72,7 @@ export default async function Page(props: unknown) {
 
       if (files.length > 0) {
         imageSections.unshift({
-          title: "Alle foto's",
+          title: "Alle foto&#39;s",
           files: files.map((f) => ({
             name: f,
             path: `/photos/${slug}/${f}`,
@@ -97,7 +97,7 @@ export default async function Page(props: unknown) {
             <DownloadButton slug={slug} />
             {isPhotoGallery && (
               <div className="mt-6 animate-bounce text-white text-sm opacity-80">
-                ↓ Scroll voor alle foto's
+                ↓ Scroll voor alle foto&#39;s
               </div>
             )}
           </div>
