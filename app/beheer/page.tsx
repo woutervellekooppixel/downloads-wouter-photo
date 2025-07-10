@@ -77,7 +77,7 @@ export default async function BeheerPage() {
                   className="border-t border-gray-200 hover:bg-gray-50 transition"
                 >
                   <td className="py-3 px-4 text-sm text-black">{type}</td>
-                  <td className="py-3 px-4 text-sm font-mono text-black">{slug}</td>
+                  <td className="py-3 px-4 text-sm text-black">{slug}</td>
                   <td className="py-3 px-4">
                     <a
                       href={`/${slug}`}
