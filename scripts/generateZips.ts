@@ -5,52 +5,64 @@ import path from "path";
 import { createWriteStream, existsSync } from "fs";
 import archiver from "archiver";
 
-const photosDir = path.join(process.cwd(), "public", "photos");
+// ✅ De hoofdbronnen die we willen verwerken
+const SOURCES = ["photos", "files"] as const;
+
 const zipOutputDir = path.join(process.cwd(), "public", "zips");
 
 async function run() {
   await fs.mkdir(zipOutputDir, { recursive: true });
 
-  const folders = await fs.readdir(photosDir);
+  const validFolders: string[] = [];
   const existingZips = await fs.readdir(zipOutputDir);
 
-  const validFolders = [];
+  for (const source of SOURCES) {
+    const sourceDir = path.join(process.cwd(), "public", source);
 
-  for (const folder of folders) {
-    const folderPath = path.join(photosDir, folder);
+    // Sla over als de map niet bestaat
+    if (!existsSync(sourceDir)) continue;
 
-    // Check of het echt een directory is
-    let stats;
-    try {
-      stats = await fs.stat(folderPath);
-      if (!stats.isDirectory()) continue;
-    } catch {
-      continue;
+    const folders = await fs.readdir(sourceDir);
+
+    for (const folder of folders) {
+      const folderPath = path.join(sourceDir, folder);
+
+      // Check of het echt een directory is
+      let stats;
+      try {
+        stats = await fs.stat(folderPath);
+        if (!stats.isDirectory()) continue;
+      } catch {
+        continue;
+      }
+
+      // Check of de folder niet leeg is
+      const files = await fs.readdir(folderPath).catch(() => []);
+      if (files.length === 0) continue;
+
+      const zipFileName = `${folder}.zip`;
+      validFolders.push(zipFileName);
+
+      const zipPath = path.join(zipOutputDir, zipFileName);
+      if (existsSync(zipPath)) continue; // Skip als ZIP al bestaat
+
+      // Maak ZIP aan
+      console.log(`📦 Zipping: ${source}/${folder}`);
+      const output = createWriteStream(zipPath);
+      const archive = archiver("zip", { zlib: { level: 9 } });
+
+      archive.on("error", (err) =>
+        console.error(`❌ Archiver error for ${folder}:`, err)
+      );
+      archive.pipe(output);
+      archive.directory(folderPath, false);
+      await archive.finalize();
     }
-
-    // Check of de folder niet leeg is
-    const files = await fs.readdir(folderPath).catch(() => []);
-    if (files.length === 0) continue;
-
-    validFolders.push(folder);
-    const zipPath = path.join(zipOutputDir, `${folder}.zip`);
-    if (existsSync(zipPath)) continue; // skip als ZIP al bestaat
-
-    // Maak ZIP aan
-    console.log(`📦 Zipping: ${folder}`);
-    const output = createWriteStream(zipPath);
-    const archive = archiver("zip", { zlib: { level: 9 } });
-
-    archive.on("error", (err) => console.error(`❌ Archiver error for ${folder}:`, err));
-    archive.pipe(output);
-    archive.directory(folderPath, false);
-    await archive.finalize();
   }
 
-  // Opruimen: verwijder zips van mappen die niet meer bestaan
+  // Opruimen: verwijder ZIPs van mappen die niet meer bestaan
   for (const zipFile of existingZips) {
-    const folderName = zipFile.replace(/\.zip$/, "");
-    if (!validFolders.includes(folderName)) {
+    if (!validFolders.includes(zipFile)) {
       console.log(`🗑️ Verwijder ZIP: ${zipFile}`);
       await fs.unlink(path.join(zipOutputDir, zipFile));
     }

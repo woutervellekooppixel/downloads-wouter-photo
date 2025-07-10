@@ -7,8 +7,9 @@
     "build": "npm run generate-zips && next build",
     "start": "next start",
     "lint": "next lint",
-      "generate-zips": "tsx scripts/generateZips.ts",
-  "build": "npm run generate-zips && next build"
+  "dev": "next dev",
+  "build": "npm run generate-zips && next build",
+  "generate-zips": "tsx scripts/generate-zips.ts"
   },
   "dependencies": {
     "archiver": "^7.0.1",

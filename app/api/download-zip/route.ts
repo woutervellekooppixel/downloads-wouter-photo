@@ -1,8 +1,6 @@
-import archiver from "archiver";
-import { NextRequest } from "next/server";
-import fs from "fs";
 import path from "path";
-import { PassThrough } from "stream";
+import fs from "fs";
+import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -12,42 +10,18 @@ export async function GET(req: NextRequest) {
     return new Response("Slug is verplicht", { status: 400 });
   }
 
-  const folderPath = path.join(process.cwd(), "public", "photos", slug);
+  const zipPath = path.join(process.cwd(), "public", "zips", `${slug}.zip`);
 
-  if (!fs.existsSync(folderPath)) {
-    return new Response("Map niet gevonden", { status: 404 });
+  if (!fs.existsSync(zipPath)) {
+    return new Response("ZIP-bestand niet gevonden", { status: 404 });
   }
 
-  const files = fs.readdirSync(folderPath).filter((file) =>
-    /\.(jpe?g|png|webp)$/i.test(file)
-  );
+  const fileBuffer = fs.readFileSync(zipPath);
 
-  if (files.length === 0) {
-    return new Response("Geen afbeeldingen gevonden", { status: 404 });
-  }
-
-  const zipStream = new PassThrough();
-  const archive = archiver("zip", { zlib: { level: 9 } });
-
-  archive.on("error", (err) => {
-    console.error("Archiver error:", err);
-    zipStream.end();
+  return new Response(fileBuffer, {
+    headers: {
+      "Content-Type": "application/zip",
+      "Content-Disposition": `attachment; filename="${slug}.zip"`,
+    },
   });
-
-  archive.pipe(zipStream);
-
-  for (const file of files) {
-    const filePath = path.join(folderPath, file);
-    archive.file(filePath, { name: file });
-  }
-
-  archive.finalize();
-
-return new Response(zipStream as unknown as BodyInit, {
-  headers: {
-    "Content-Type": "application/zip",
-    "Content-Disposition": `attachment; filename="${slug}.zip"`,
-  },
-});
-
 }
