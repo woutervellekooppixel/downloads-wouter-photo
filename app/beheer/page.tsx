@@ -23,53 +23,84 @@ export default async function BeheerPage() {
     { label: "📎 Files", dir: "files" },
   ];
 
-  const allSlugs: { type: string; slug: string }[] = [];
+  const allSlugs: {
+    type: string;
+    slug: string;
+    mtime: Date | null;
+  }[] = [];
 
   for (const base of basePaths) {
     const folderPath = path.join(process.cwd(), "public", base.dir);
     try {
       const entries = await fs.readdir(folderPath, { withFileTypes: true });
-      const slugs = entries
-        .filter((e) => e.isDirectory())
-        .map((e) => ({ type: base.label, slug: e.name }));
-      allSlugs.push(...slugs);
+      for (const entry of entries) {
+        if (!entry.isDirectory()) continue;
+        const fullPath = path.join(folderPath, entry.name);
+        const stat = await fs.stat(fullPath);
+        allSlugs.push({
+          type: base.label,
+          slug: entry.name,
+          mtime: stat.mtime ?? null,
+        });
+      }
     } catch {
-      // map bestaat niet of is leeg → geen probleem
+      // Map bestaat niet → negeren
     }
   }
 
+  // Sorteer op type, dan slug
+  allSlugs.sort(
+    (a, b) => a.type.localeCompare(b.type) || a.slug.localeCompare(b.slug)
+  );
+
   return (
-    <main style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-      <h1 style={{ marginBottom: "1rem" }}>📁 Mijn downloads</h1>
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
-        <thead>
-          <tr>
-            <th align="left">Categorie</th>
-            <th align="left">Slug</th>
-            <th align="left">Link</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {allSlugs.map(({ type, slug }) => {
-            const url = `https://downloads.wouter.photo/${slug}`;
-            return (
-              <tr key={`${type}-${slug}`} style={{ borderTop: "1px solid #ccc" }}>
-                <td style={{ padding: "0.5rem 0" }}>{type}</td>
-                <td>{slug}</td>
-                <td>
-                  <a href={`/${slug}`} style={{ color: "#0070f3" }}>
-                    {url}
-                  </a>
-                </td>
-                <td>
-                  <CopyButton text={url} />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+    <main className="min-h-screen bg-gray-50 px-6 py-10 font-sans">
+      <h1 className="text-2xl font-bold mb-2">📁 Mijn downloads</h1>
+      <p className="text-sm text-gray-600 mb-6">
+        Totaal {allSlugs.length} mappen gevonden
+      </p>
+
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border border-gray-200 shadow-sm rounded">
+          <thead>
+            <tr className="text-left bg-gray-100 text-sm text-gray-600">
+              <th className="py-3 px-4">Categorie</th>
+              <th className="py-3 px-4">Slug</th>
+              <th className="py-3 px-4">Link</th>
+              <th className="py-3 px-4 hidden md:table-cell">Gewijzigd</th>
+              <th className="py-3 px-4"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {allSlugs.map(({ type, slug, mtime }) => {
+              const url = `https://downloads.wouter.photo/${slug}`;
+              return (
+                <tr
+                  key={`${type}-${slug}`}
+                  className="border-t border-gray-200 hover:bg-gray-50 transition"
+                >
+                  <td className="py-3 px-4 text-sm">{type}</td>
+                  <td className="py-3 px-4 text-sm font-mono">{slug}</td>
+                  <td className="py-3 px-4">
+                    <a
+                      href={`/${slug}`}
+                      className="text-blue-600 hover:underline break-all text-sm"
+                    >
+                      {url}
+                    </a>
+                  </td>
+                  <td className="py-3 px-4 text-sm hidden md:table-cell text-gray-500 whitespace-nowrap">
+                    {mtime ? new Date(mtime).toLocaleDateString("nl-NL") : "—"}
+                  </td>
+                  <td className="py-3 px-4">
+                    <CopyButton text={url} />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </main>
   );
 }
