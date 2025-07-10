@@ -25,7 +25,7 @@ export async function generateMetadata(props: unknown): Promise<Metadata> {
 
   return {
     title: `Downloads Wouter.Photo | ${formattedSlug}`,
-    description: `Download alle foto's van ${formattedSlug}`,
+    description: `Download alle foto&#39;s van ${formattedSlug}`,
   };
 }
 
@@ -65,7 +65,7 @@ export default async function Page(props: unknown) {
     // Voeg losse bestanden toe als extra sectie (als ze er zijn)
     if (files.length > 0) {
       imageSections.unshift({
-        title: "Alle foto's",
+        title: "Alle foto&#39;s",
         files: files.map((f) => ({
           name: f,
           path: `/photos/${slug}/${f}`,
@@ -73,7 +73,7 @@ export default async function Page(props: unknown) {
       });
     }
 
-    // Check: zijn er echt foto's gevonden?
+    // Check: zijn er echt foto&#39;s gevonden?
     const totalPhotos = imageSections.reduce((sum, sec) => sum + sec.files.length, 0);
     if (totalPhotos === 0) notFound();
 
@@ -89,7 +89,7 @@ export default async function Page(props: unknown) {
           <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
             <DownloadButton slug={slug} />
             <div className="mt-6 animate-bounce text-white text-sm opacity-80">
-              ↓ Scroll voor alle foto's
+              ↓ Scroll voor alle foto&#39;s
             </div>
           </div>
           <div className="hidden md:block absolute bottom-4 right-4 text-xs sm:text-sm text-white opacity-80 z-10">
