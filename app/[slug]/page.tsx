@@ -3,14 +3,9 @@ import path from "path";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Image from "next/image";
-import dynamic from "next/dynamic"; // 👈 Belangrijk: bovenaan
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
-
-// Dynamische import van de lightbox-gallery
-const GallerySection = dynamic(() => import("../components/GallerySection"), {
-  ssr: false,
-});
+import GalleryRender from "./GalleryRender"; // ✅ import de client wrapper
 
 interface Params {
   slug: string;
@@ -55,7 +50,9 @@ export default async function Page(props: unknown) {
     .then((s) => s.isFile())
     .catch(() => false);
 
-  const heroUrl = hasHero ? `/photos/${slug}/hero.jpg` : "/background.jpg";
+  const heroUrl = hasHero
+    ? `/photos/${slug}/hero.jpg`
+    : "/background.jpg";
 
   try {
     const dirents = await fs.readdir(folderPath, { withFileTypes: true });
@@ -66,7 +63,7 @@ export default async function Page(props: unknown) {
         (d) =>
           d.isFile() &&
           /\.(jpe?g|png|webp)$/i.test(d.name) &&
-          d.name !== "hero.jpg" // ⛔️ exclude hero.jpg
+          d.name !== "hero.jpg"
       )
       .map((d) => d.name);
 
@@ -129,13 +126,7 @@ export default async function Page(props: unknown) {
         {isPhotoGallery && (
           <section id="gallery" className="bg-white py-12 px-4">
             <div className="max-w-6xl mx-auto space-y-12">
-              {imageSections.map((section) => (
-                <GallerySection
-                  key={section.title}
-                  title={section.title}
-                  files={section.files}
-                />
-              ))}
+              <GalleryRender imageSections={imageSections} />
             </div>
           </section>
         )}
