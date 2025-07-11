@@ -3,8 +3,14 @@ import path from "path";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Image from "next/image";
+import dynamic from "next/dynamic"; // 👈 Belangrijk: bovenaan
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
+
+// Dynamische import van de lightbox-gallery
+const GallerySection = dynamic(() => import("../components/GallerySection"), {
+  ssr: false,
+});
 
 interface Params {
   slug: string;
@@ -49,9 +55,7 @@ export default async function Page(props: unknown) {
     .then((s) => s.isFile())
     .catch(() => false);
 
-  const heroUrl = hasHero
-    ? `/photos/${slug}/hero.jpg`
-    : "/background.jpg";
+  const heroUrl = hasHero ? `/photos/${slug}/hero.jpg` : "/background.jpg";
 
   try {
     const dirents = await fs.readdir(folderPath, { withFileTypes: true });
@@ -62,7 +66,7 @@ export default async function Page(props: unknown) {
         (d) =>
           d.isFile() &&
           /\.(jpe?g|png|webp)$/i.test(d.name) &&
-          d.name !== "hero.jpg"
+          d.name !== "hero.jpg" // ⛔️ exclude hero.jpg
       )
       .map((d) => d.name);
 
@@ -126,38 +130,11 @@ export default async function Page(props: unknown) {
           <section id="gallery" className="bg-white py-12 px-4">
             <div className="max-w-6xl mx-auto space-y-12">
               {imageSections.map((section) => (
-                <div key={section.title}>
-                  <h2 className="text-xl font-semibold mb-4 text-gray-800">
-                    {section.title}
-                  </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                    {section.files.map((file) => (
-                      <div
-                        key={file.path}
-                        className="relative group overflow-hidden rounded shadow"
-                      >
-                        <Image
-                          src={file.path}
-                          alt={file.name}
-                          width={800}
-                          height={600}
-                          loading="lazy"
-                          className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
-                          <a
-                            href={file.path}
-                            download
-                            title="Download deze foto"
-                            className="bg-white text-black rounded-full px-4 py-2 text-sm shadow hover:bg-gray-200 transition"
-                          >
-                            ⬇
-                          </a>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                <GallerySection
+                  key={section.title}
+                  title={section.title}
+                  files={section.files}
+                />
               ))}
             </div>
           </section>
