@@ -2,7 +2,6 @@ import fs from "fs/promises";
 import path from "path";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Image from "next/image";
 import Header from "../../components/Header";
 import DownloadButton from "../../components/DownloadButton";
 import GalleryRender from "./GalleryRender"; // ✅ import de client wrapper
