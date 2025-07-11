@@ -113,13 +113,11 @@ export default async function Page(props: unknown) {
             <DownloadButton slug={slug} />
             {isPhotoGallery && (
               <div className="mt-6 animate-bounce text-white text-sm opacity-80">
-                ↓ Scroll voor alle foto&#39;s
+               
               </div>
             )}
           </div>
-          <div className="hidden md:block absolute bottom-4 right-4 text-xs sm:text-sm text-white opacity-80 z-10">
-            Lionel Richie photographed by Wouter Vellekoop
-          </div>
+          
         </section>
 
         {isPhotoGallery && (
