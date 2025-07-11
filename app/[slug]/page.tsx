@@ -42,12 +42,28 @@ export default async function Page(props: unknown) {
 
   const folderPath = isPhotoGallery ? basePhotos : baseFiles;
 
+  // 🔍 Check of hero.jpg aanwezig is
+  const heroFullPath = path.join(folderPath, "hero.jpg");
+  const hasHero = await fs
+    .stat(heroFullPath)
+    .then((s) => s.isFile())
+    .catch(() => false);
+
+  const heroUrl = hasHero
+    ? `/photos/${slug}/hero.jpg`
+    : "/background.jpg";
+
   try {
     const dirents = await fs.readdir(folderPath, { withFileTypes: true });
 
     const folders = dirents.filter((d) => d.isDirectory());
     const files = dirents
-      .filter((d) => d.isFile() && /\.(jpe?g|png|webp)$/i.test(d.name))
+      .filter(
+        (d) =>
+          d.isFile() &&
+          /\.(jpe?g|png|webp)$/i.test(d.name) &&
+          d.name !== "hero.jpg"
+      )
       .map((d) => d.name);
 
     let imageSections: { title: string; files: { name: string; path: string }[] }[] = [];
@@ -72,7 +88,7 @@ export default async function Page(props: unknown) {
 
       if (files.length > 0) {
         imageSections.unshift({
-          title: "Alle foto&#39;s",
+          title: "Alle foto's",
           files: files.map((f) => ({
             name: f,
             path: `/photos/${slug}/${f}`,
@@ -90,7 +106,7 @@ export default async function Page(props: unknown) {
 
         <section
           className="relative h-[60vh] sm:h-screen bg-cover bg-center"
-          style={{ backgroundImage: `url('/background.jpg')` }}
+          style={{ backgroundImage: `url('${heroUrl}')` }}
         >
           <div className="absolute inset-0 bg-black/40" />
           <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
@@ -102,8 +118,8 @@ export default async function Page(props: unknown) {
             )}
           </div>
           <div className="hidden md:block absolute bottom-4 right-4 text-xs sm:text-sm text-white opacity-80 z-10">
-              Lionel Richie photographed by Wouter Vellekoop
-            </div>
+            Lionel Richie photographed by Wouter Vellekoop
+          </div>
         </section>
 
         {isPhotoGallery && (
@@ -121,13 +137,13 @@ export default async function Page(props: unknown) {
                         className="relative group overflow-hidden rounded shadow"
                       >
                         <Image
-  src={file.path}
-  alt={file.name}
-  width={800}
-  height={600}
-  loading="lazy"
-  className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
-/>
+                          src={file.path}
+                          alt={file.name}
+                          width={800}
+                          height={600}
+                          loading="lazy"
+                          className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
+                        />
                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
                           <a
                             href={file.path}
