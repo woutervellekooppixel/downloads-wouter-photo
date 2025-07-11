@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 
 // Dynamisch importeren met SSR uit
-const GallerySection = dynamic(() => import("../../components/GallerySection"), {
+const GallerySection = dynamic(() => import("@/components/GallerySection"), {
   ssr: false,
 });
 
