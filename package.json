@@ -7,9 +7,7 @@
     "build": "npm run generate-zips && next build",
     "start": "next start",
     "lint": "next lint",
-  "dev": "next dev",
-  "build": "npm run generate-zips && next build",
-  "generate-zips": "tsx scripts/generateZips.ts"
+    "generate-zips": "tsx scripts/generateZips.ts"
   },
   "dependencies": {
     "archiver": "^7.0.1",
@@ -19,6 +17,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
+    "yet-another-react-lightbox": "^3.24.0",
     "zustand": "^5.0.6"
   },
   "devDependencies": {
