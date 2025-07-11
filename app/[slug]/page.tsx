@@ -121,12 +121,13 @@ export default async function Page(props: unknown) {
                         className="relative group overflow-hidden rounded shadow"
                       >
                         <Image
-                          src={file.path}
-                          alt={file.name}
-                          width={800}
-                          height={600}
-                          className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
-                        />
+  src={file.path}
+  alt={file.name}
+  width={800}
+  height={600}
+  loading="lazy"
+  className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
+/>
                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
                           <a
                             href={file.path}
