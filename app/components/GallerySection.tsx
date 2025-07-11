@@ -20,7 +20,7 @@ export default function GallerySection({ title, files }: GallerySectionProps) {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">{title}</h2>
+      <h2 className="text-black text-2xl font-bold mb-4">{title}</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         {files.map((file, i) => (
           <div key={file.path} className="relative group">
