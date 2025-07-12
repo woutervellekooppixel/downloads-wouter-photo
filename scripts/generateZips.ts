@@ -6,24 +6,27 @@ import archiver from "archiver";
 const SOURCES = ["photos", "files"] as const;
 const zipOutputDir = path.join(process.cwd(), "public", "zips");
 
-async function getAllImages(dir: string): Promise<string[]> {
+// Voeg alle bestanden uit subfolders toe mét hun originele folderstructuur
+async function addFilesRecursively(
+  archive: archiver.Archiver,
+  dir: string,
+  baseDir: string
+) {
   const entries = await fs.readdir(dir, { withFileTypes: true });
-  const files = await Promise.all(
-    entries.map(async (entry) => {
-      const fullPath = path.join(dir, entry.name);
-      if (entry.isDirectory()) {
-        return await getAllImages(fullPath);
-      } else if (
-        /\.(jpe?g|png|webp)$/i.test(entry.name) &&
-        entry.name.toLowerCase() !== "hero.jpg"
-      ) {
-        return [fullPath];
-      } else {
-        return [];
-      }
-    })
-  );
-  return files.flat();
+
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    const relativePath = path.relative(baseDir, fullPath);
+
+    if (entry.isDirectory()) {
+      await addFilesRecursively(archive, fullPath, baseDir);
+    } else if (
+      /\.(jpe?g|png|webp)$/i.test(entry.name) &&
+      entry.name.toLowerCase() !== "hero.jpg"
+    ) {
+      archive.file(fullPath, { name: relativePath });
+    }
+  }
 }
 
 async function run() {
@@ -58,12 +61,8 @@ async function run() {
       );
       archive.pipe(output);
 
-      // Voeg álle afbeeldingen toe (ook uit submappen), plat zonder structuur
-      const imageFiles = await getAllImages(folderPath);
-      imageFiles.forEach((filePath) => {
-        const fileName = path.basename(filePath);
-        archive.file(filePath, { name: fileName });
-      });
+      // Voeg bestanden toe mét behoud van folderstructuur
+      await addFilesRecursively(archive, folderPath, folderPath);
 
       await archive.finalize();
     }
