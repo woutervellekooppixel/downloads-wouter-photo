@@ -30,7 +30,7 @@ export default function GallerySection({ title, files }: GallerySectionProps) {
   }, []);
 
 return (
-  <div className="px-4 sm:px-0">
+  <div className="px-8 sm:px-0">
     <h2 className="text-black text-2xl font-bold mb-4">{title}</h2>
     ...
 
