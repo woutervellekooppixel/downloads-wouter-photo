@@ -1,61 +1,10 @@
-import path from "path";
-import { promises as fs } from "fs";
-import { headers } from "next/headers";
-import CopyButton from "../components/CopyButton";
+import CopyButton from "@/components/CopyButton";
+import data from "../../../data/beheer.json";
 
-export default async function BeheerPage() {
-  const headersList = await headers();
-  const auth = headersList.get("authorization");
-
-  const expected = `Basic ${Buffer.from(
-    `${process.env.ADMIN_USER}:${process.env.ADMIN_PASS}`
-  ).toString("base64")}`;
-
-  if (auth !== expected) {
-    return new Response("Unauthorized", {
-      status: 401,
-      headers: { "WWW-Authenticate": 'Basic realm="Beheer"' },
-    });
-  }
-
-  const basePaths = [
-    { label: "📷 Photos", dir: "photos" },
-    { label: "📎 Files", dir: "files" },
-  ];
-
-  const allSlugs: {
-    type: string;
-    slug: string;
-    mtime: Date | null;
-  }[] = [];
-
-  for (const base of basePaths) {
-    const folderPath = path.join(process.cwd(), "public", base.dir);
-    try {
-      const entries = await fs.readdir(folderPath, { withFileTypes: true });
-      for (const entry of entries) {
-        if (!entry.isDirectory()) continue;
-        const fullPath = path.join(folderPath, entry.name);
-        const stat = await fs.stat(fullPath);
-        allSlugs.push({
-          type: base.label,
-          slug: entry.name,
-          mtime: stat.mtime ?? null,
-        });
-      }
-    } catch {
-      // Map bestaat niet → negeren
-    }
-  }
-
-  // Sorteer op type, dan slug
-  allSlugs.sort(
-    (a, b) => a.type.localeCompare(b.type) || a.slug.localeCompare(b.slug)
-  );
-
+export default function BeheerPage() {
   return (
     <main className="min-h-screen bg-gray-50 px-6 py-10 font-sans">
-
+      <h1 className="text-2xl font-bold mb-6 text-black">📂 Projectbeheer</h1>
 
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-200 shadow-sm rounded">
@@ -69,7 +18,7 @@ export default async function BeheerPage() {
             </tr>
           </thead>
           <tbody>
-            {allSlugs.map(({ type, slug, mtime }) => {
+            {data.map(({ type, slug, mtime }) => {
               const url = `https://downloads.wouter.photo/${slug}`;
               return (
                 <tr

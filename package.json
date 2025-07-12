@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run generate-zips && next build",
+    "build": "npm run generate-zips && npm run generate-beheer && next build",
     "start": "next start",
     "lint": "next lint",
-    "generate-zips": "tsx scripts/generateZips.ts"
+    "generate-zips": "tsx scripts/generateZips.ts",
+    "generate-beheer": "tsx scripts/generateBeheerList.ts"
   },
   "dependencies": {
     "archiver": "^7.0.1",
@@ -21,16 +22,16 @@
     "zustand": "^5.0.6"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
+    "@eslint/eslintrc": "^3.0.0",
+    "@tailwindcss/postcss": "^4.0.0",
     "@types/archiver": "^6.0.3",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
+    "@types/node": "^20.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.0.0",
     "eslint-config-next": "15.3.5",
-    "tailwindcss": "^4",
+    "tailwindcss": "^4.0.0",
     "tsx": "^4.20.3",
-    "typescript": "^5"
+    "typescript": "^5.0.0"
   }
 }
