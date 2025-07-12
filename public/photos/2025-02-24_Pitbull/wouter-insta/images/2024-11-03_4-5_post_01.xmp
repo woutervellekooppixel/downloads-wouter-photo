@@ -1,0 +1,52 @@
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 7.0-c000 1.000000, 0000/00/00-00:00:00        ">
+ <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description rdf:about=""
+    xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/"
+    xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#"
+    xmlns:stEvt="http://ns.adobe.com/xap/1.0/sType/ResourceEvent#"
+    xmlns:xmp="http://ns.adobe.com/xap/1.0/"
+    xmlns:exif="http://ns.adobe.com/exif/1.0/"
+    xmlns:tiff="http://ns.adobe.com/tiff/1.0/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:xmpDM="http://ns.adobe.com/xmp/1.0/DynamicMedia/"
+    xmlns:crs="http://ns.adobe.com/camera-raw-settings/1.0/"
+    xmlns:photoshop="http://ns.adobe.com/photoshop/1.0/"
+   xmpMM:OriginalDocumentID="xmp.did:be1359ac-b164-41ea-9368-ce5249b300fd"
+   xmpMM:DocumentID="xmp.did:9A7D607AEB2511EF81EB80218EEDA9B5"
+   xmpMM:InstanceID="xmp.iid:b71cd2af-d344-4ca8-a4bc-c8eb4f8ada0a"
+   xmpMM:PreservedFileName="2024-11-03_4-5_post_01.jpg"
+   xmp:CreatorTool="Adobe Photoshop 26.0 (Macintosh)"
+   xmp:MetadataDate="2025-03-12T15:11:44+01:00"
+   exif:ExifVersion="0231"
+   exif:PixelXDimension="1080"
+   exif:PixelYDimension="1350"
+   tiff:Orientation="1"
+   tiff:ImageWidth="1080"
+   tiff:ImageLength="1350"
+   dc:format="image/jpeg"
+   xmpDM:pick="0"
+   crs:CropTop="0"
+   crs:CropLeft="0"
+   crs:CropBottom="1"
+   crs:CropRight="1"
+   crs:CropAngle="0"
+   crs:CropConstrainToWarp="0"
+   crs:RawFileName="2024-11-03_4-5_post_01.jpg"
+   photoshop:SidecarForExtension="JPG"
+   photoshop:EmbeddedXMPDigest="08A26575F0FA10832F6CFD9CEFEC9D94">
+   <xmpMM:DerivedFrom
+    stRef:instanceID="xmp.iid:eac40122-0a8f-4c23-b100-1e51289da74d"
+    stRef:documentID="xmp.did:be1359ac-b164-41ea-9368-ce5249b300fd"/>
+   <xmpMM:History>
+    <rdf:Seq>
+     <rdf:li
+      stEvt:action="saved"
+      stEvt:instanceID="xmp.iid:b71cd2af-d344-4ca8-a4bc-c8eb4f8ada0a"
+      stEvt:when="2025-03-12T15:11:44+01:00"
+      stEvt:softwareAgent="Adobe Photoshop Lightroom Classic 14.2 (Macintosh)"
+      stEvt:changed="/metadata"/>
+    </rdf:Seq>
+   </xmpMM:History>
+  </rdf:Description>
+ </rdf:RDF>
+</x:xmpmeta>
