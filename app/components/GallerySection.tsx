@@ -29,9 +29,10 @@ export default function GallerySection({ title, files }: GallerySectionProps) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  return (
-    <div>
-      <h2 className="text-black text-2xl font-bold mb-4">{title}</h2>
+return (
+  <div className="px-4 sm:px-0">
+    <h2 className="text-black text-2xl font-bold mb-4">{title}</h2>
+    ...
 
       <div
         className={`grid gap-4 ${
