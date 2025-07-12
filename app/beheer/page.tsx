@@ -1,5 +1,5 @@
 import CopyButton from "@/components/CopyButton";
-import data from "../../../data/beheer.json";
+import data from "../../data/beheer.json";
 
 export default function BeheerPage() {
   return (
